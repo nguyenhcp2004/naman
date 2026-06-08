@@ -5,8 +5,8 @@ const points = [42, 50, 39, 36, 34, 39, 41, 70]
 
 export default function Page() {
   return (
-    <main className="min-h-svh overflow-hidden bg-background text-foreground">
-      <section className="relative grid min-h-svh place-items-center px-6 py-10">
+    <>
+      <section className="relative grid min-h-[calc(100svh-4rem)] place-items-center overflow-hidden bg-background px-6 py-10 text-foreground">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,color-mix(in_oklch,var(--primary),transparent_80%),transparent_28%),radial-gradient(circle_at_84%_16%,color-mix(in_oklch,var(--accent-foreground),transparent_74%),transparent_24%),linear-gradient(135deg,color-mix(in_oklch,var(--background),black_7%),var(--background))]" />
         <div className="absolute inset-x-0 top-0 h-px bg-border" />
         <div className="relative grid w-full max-w-6xl gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -93,6 +93,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-    </main>
+    </>
   )
 }

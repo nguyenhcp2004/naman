@@ -1,7 +1,9 @@
+import type { ReactNode } from "react"
 import { Geist_Mono } from "next/font/google"
 import localFont from "next/font/local"
 
 import "@workspace/ui/globals.css"
+import { SiteFooter, SiteHeader } from "@/components/layout"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -40,7 +42,7 @@ const fontMono = Geist_Mono({
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode
 }>) {
   return (
     <html
@@ -49,7 +51,13 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, avo.variable, "font-sans")}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <div className="flex min-h-svh flex-col bg-background text-foreground">
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   )
