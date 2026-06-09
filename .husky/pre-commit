@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# Add pre-commit checks here when needed.
+exit 0
