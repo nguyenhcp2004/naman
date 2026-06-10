@@ -12,10 +12,10 @@ const insights = [
 ]
 
 const projects = [
-  { title: "Nhật ký vận hành", image: "/images/hero-banner.png", from: { x: 650, y: -1180, rotate: -8 } },
-  { title: "Thị trường thiết bị", image: "/images/hero-banner-2.png", from: { x: 40, y: -1210, rotate: 5 } },
-  { title: "Quản lý doanh nghiệp", image: "/images/footer-card.png", from: { x: 670, y: -1260, rotate: 7 } },
-  { title: "Bảo trì bảo dưỡng", image: "/images/hero-banner.png", from: { x: 20, y: -1290, rotate: -6 } },
+  { title: "Nhật ký vận hành", image: "/images/hero-banner.png", from: { x: 600, y: -710, rotate: -7 } },
+  { title: "Thị trường thiết bị", image: "/images/hero-banner-2.png", from: { x: 0, y: -730, rotate: 4 } },
+  { title: "Quản lý doanh nghiệp", image: "/images/footer-card.png", from: { x: 620, y: -1110, rotate: 7 } },
+  { title: "Bảo trì bảo dưỡng", image: "/images/hero-banner.png", from: { x: 0, y: -1130, rotate: -5 } },
 ]
 
 gsap.registerPlugin(ScrollTrigger)
@@ -43,40 +43,44 @@ export function FeaturedStorySections() {
         scrollTrigger: { trigger: "[data-know-section]", start: "top 72%" },
       })
 
-      gsap.to("[data-stack-preview]", {
-        opacity: 0,
-        scale: 0.92,
-        ease: "none",
-        scrollTrigger: { trigger: "[data-project-section]", scrub: 1.1, start: "top 92%", end: "top 58%" },
-      })
+      gsap.set("[data-project-card]", { opacity: 0 })
 
-      gsap.fromTo(
-        "[data-project-card]",
-        (index: number) => ({
-          x: projects[index]?.from.x ?? 0,
-          y: projects[index]?.from.y ?? -800,
-          rotate: projects[index]?.from.rotate ?? 0,
-          scale: 0.64,
-          zIndex: projects.length - index,
-        }),
-        {
-          x: 0,
-          y: 0,
-          rotate: 0,
-          scale: 1,
-          zIndex: 1,
-          ease: "none",
-          stagger: 0.02,
-          scrollTrigger: { trigger: "[data-project-section]", scrub: 1.1, start: "top 92%", end: "top 18%" },
+      gsap.to("[data-stack-card]", {
+        x: (index, element) => {
+          const target = section.querySelector(`[data-project-card="${index}"]`)
+          if (!target) return 0
+
+          return target.getBoundingClientRect().left - element.getBoundingClientRect().left
         },
-      )
+        y: (index, element) => {
+          const target = section.querySelector(`[data-project-card="${index}"]`)
+          if (!target) return 0
+
+          return target.getBoundingClientRect().top - element.getBoundingClientRect().top
+        },
+        rotate: 0,
+        scale: (index, element) => {
+          const target = section.querySelector(`[data-project-card="${index}"]`)
+          if (!target) return 1
+
+          return target.getBoundingClientRect().width / element.getBoundingClientRect().width
+        },
+        ease: "none",
+        scrollTrigger: {
+          trigger: "[data-project-section]",
+          scrub: 1.15,
+          start: "top 92%",
+          end: "top 8%",
+          invalidateOnRefresh: true,
+        },
+      })
     }, section)
 
     return () => context.revert()
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-background py-20 text-foreground lg:py-28">
+    <section ref={sectionRef} className="relative overflow-visible bg-background py-20 text-foreground lg:py-28">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_86%_14%,color-mix(in_oklch,var(--accent),transparent_58%),transparent_22%),linear-gradient(180deg,color-mix(in_oklch,var(--background),var(--primary)_4%),var(--background)_54%)]" />
       <div className="absolute right-0 top-20 hidden h-[620px] w-52 bg-[radial-gradient(circle,color-mix(in_oklch,var(--primary),transparent_74%)_1px,transparent_1.8px)] bg-[length:14px_14px] opacity-25 lg:block" />
 
@@ -109,24 +113,20 @@ export function FeaturedStorySections() {
 
           <div className="pointer-events-none relative hidden min-h-[520px] lg:block">
             <div className="absolute inset-0 bg-[linear-gradient(color-mix(in_oklch,var(--primary),transparent_92%)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_oklch,var(--primary),transparent_92%)_1px,transparent_1px)] bg-[length:54px_54px]" />
-            <div data-stack-preview className="absolute -right-24 top-32 h-[330px] w-[560px] xl:-right-32">
+            <div data-stack-preview className="absolute right-30 top-[20%] z-50 h-[360px] w-[620px] -translate-y-1/2 xl:right-8">
               {projects.map((project, index) => (
                 <div
-                  className="absolute left-1/2 top-1/2 h-72 w-[470px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.45rem] border border-border bg-card shadow-2xl shadow-primary/14"
+                  className="absolute left-1/2 top-1/2 h-72 w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.45rem] border border-border bg-card shadow-2xl shadow-primary/20 will-change-transform"
+                  data-stack-card={index}
                   key={`stack-${project.title}`}
                   style={{
-                    transform: `translate(-50%, -50%) translate(${(index - 1.5) * 18}px, ${index * 10}px) rotate(${[-7, 4, 7, -5][index]}deg)`,
+                    rotate: `${[-7, 4, 7, -5][index]}deg`,
+                    translate: `${(index - 1.5) * 18}px ${index * 10}px`,
                     zIndex: index + 1,
                   }}
                 >
-                  <Image
-                    alt={project.title}
-                    className="object-cover object-[center_82%]"
-                    fill
-                    sizes="470px"
-                    src={project.image}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/58 via-transparent to-transparent" />
+                  <Image alt={project.title} className="object-cover object-[center_82%]" fill sizes="500px" src={project.image} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/62 via-transparent to-transparent" />
                   <div className="absolute right-5 top-5 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20">
                     {project.title}
                   </div>
@@ -136,7 +136,7 @@ export function FeaturedStorySections() {
           </div>
         </div>
 
-        <div data-project-section className="relative -mt-10 min-h-[1040px] pt-20 lg:min-h-[1130px]">
+        <div data-project-section className="relative -mt-10 min-h-[1040px] overflow-visible pt-20 lg:min-h-[1180px]">
           <div className="mb-14 flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
               <p className="mb-4 flex items-center gap-3 text-sm font-bold uppercase tracking-[0.22em] text-primary">
@@ -152,12 +152,16 @@ export function FeaturedStorySections() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:px-10">
-            {projects.map((project) => (
+          <div className="relative z-30 h-[860px] lg:mx-10">
+            {projects.map((project, index) => (
               <article
-                data-project-card
-                className="group overflow-hidden rounded-[1.65rem] border border-border bg-card shadow-2xl shadow-primary/10 will-change-transform md:even:translate-y-24"
+                data-project-card={index}
+                className="group absolute w-full overflow-hidden rounded-[1.65rem] border border-border bg-card shadow-2xl shadow-primary/10 will-change-transform md:w-[calc(50%-0.75rem)]"
                 key={project.title}
+                style={{
+                  left: index % 2 === 0 ? "0" : "calc(50% + 0.75rem)",
+                  top: index < 2 ? "0" : "430px",
+                }}
               >
                 <div className="relative h-[330px] overflow-hidden bg-muted lg:h-[390px]">
                   <Image
