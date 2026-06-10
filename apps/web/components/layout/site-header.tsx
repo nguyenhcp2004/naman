@@ -1,7 +1,9 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
 
 import { Button } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
@@ -14,15 +16,32 @@ const navigationItems = [
 
 export function SiteHeader() {
   const pathname = usePathname()
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const updateScrolled = () => setIsScrolled(window.scrollY > 12)
+
+    updateScrolled()
+    window.addEventListener("scroll", updateScrolled, { passive: true })
+
+    return () => window.removeEventListener("scroll", updateScrolled)
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5">
       <div className="mx-auto flex h-[4.5rem] w-full max-w-7xl items-center justify-between rounded-full border border-border/80 bg-background/90 px-3 shadow-2xl shadow-primary/10 backdrop-blur-xl sm:h-20 sm:px-5">
-        <Link className="group flex items-center gap-3 rounded-full pr-2 text-lg font-bold tracking-tight sm:text-xl" href="/">
-          <span className="grid size-11 place-items-center rounded-full bg-primary text-base text-primary-foreground shadow-lg shadow-primary/25 transition group-hover:scale-105 sm:size-12 sm:text-lg">
-            t
-          </span>
-          <span className="hidden sm:inline">QMaster</span>
+        <Link className="group flex items-center rounded-full pr-2" href="/" aria-label="QMaster home">
+          <Image
+            alt="QMaster"
+            className={cn(
+              "h-11 w-auto transition duration-300 ease-out group-hover:scale-105 sm:h-14",
+              isScrolled && "scale-90",
+            )}
+            height={180}
+            priority
+            src="/images/logo.png"
+            width={653}
+          />
         </Link>
 
         <nav aria-label="Main navigation" className="flex items-center gap-1 text-base font-semibold text-muted-foreground sm:gap-3 sm:text-lg">
