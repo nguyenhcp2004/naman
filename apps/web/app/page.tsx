@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
+import { CustomersSection } from "@/components/customers-section"
 import { FeaturedStorySections } from "@/components/featured-story-sections"
 import { HeroSlider } from "@/components/hero-slider"
 import { SmoothScroll } from "@/components/smooth-scroll"
@@ -38,6 +39,8 @@ export default function Page() {
       <HeroSlider />
 
       <FeaturedStorySections />
+
+      <CustomersSection />
 
       <section className="bg-muted px-5 py-20 sm:px-8 lg:py-28">
         <div className="mx-auto w-full max-w-7xl">
