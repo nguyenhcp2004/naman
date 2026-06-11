@@ -50,21 +50,34 @@ export function FeaturedStorySections() {
           const target = section.querySelector(`[data-project-card="${index}"]`)
           if (!target) return 0
 
-          return target.getBoundingClientRect().left - element.getBoundingClientRect().left
+          const sourceRect = element.getBoundingClientRect()
+          const targetRect = target.getBoundingClientRect()
+
+          return targetRect.left + targetRect.width / 2 - (sourceRect.left + sourceRect.width / 2)
         },
         y: (index, element) => {
           const target = section.querySelector(`[data-project-card="${index}"]`)
           if (!target) return 0
 
-          return target.getBoundingClientRect().top - element.getBoundingClientRect().top
+          const sourceRect = element.getBoundingClientRect()
+          const targetRect = target.getBoundingClientRect()
+
+          return targetRect.top + targetRect.height / 2 - (sourceRect.top + sourceRect.height / 2)
         },
         rotate: 0,
-        scale: (index, element) => {
+        scaleX: (index, element) => {
           const target = section.querySelector(`[data-project-card="${index}"]`)
           if (!target) return 1
 
           return target.getBoundingClientRect().width / element.getBoundingClientRect().width
         },
+        scaleY: (index, element) => {
+          const target = section.querySelector(`[data-project-card="${index}"]`)
+          if (!target) return 1
+
+          return target.getBoundingClientRect().height / element.getBoundingClientRect().height
+        },
+        transformOrigin: "center center",
         ease: "none",
         scrollTrigger: {
           trigger: "[data-project-section]",
