@@ -101,14 +101,14 @@ export function CustomersSection() {
         <div className="mx-auto mb-8 max-w-2xl text-center">
           <p className="mb-3 flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.22em] text-primary">
             <span className="size-1.5 rounded-full bg-accent shadow-[0_0_12px_rgba(190,215,49,0.75)]" />
-            Đối tác & Khách hàng
+            Partners & Customers
           </p>
           <h2 className="text-3xl font-bold tracking-[-0.055em] text-primary sm:text-4xl">
-            Được tin tưởng bởi những{" "}
-            <span className="text-accent-foreground">thương hiệu hàng đầu</span>
+            Trusted by{" "}
+            <span className="text-accent-foreground">leading brands</span>
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
-            Hơn 100 doanh nghiệp đang vận hành cùng QMaster mỗi ngày.
+            Over 100 businesses operate with QMaster every day.
           </p>
         </div>
 

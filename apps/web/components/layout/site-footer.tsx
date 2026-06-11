@@ -18,11 +18,11 @@ const footerLinks = [
     ],
   },
   {
-    title: "Giờ làm việc",
+    title: "Office Hours",
     links: [
-      { label: "Thứ 2 - Thứ 6: 8:00 - 17:30" },
-      { label: "Thứ 7: 8:00 - 12:00" },
-      { label: "Chủ nhật: Nghỉ" },
+      { label: "Mon - Fri: 8:00 AM - 5:30 PM" },
+      { label: "Sat: 8:00 AM - 12:00 PM" },
+      { label: "Sun: Closed" },
     ],
   },
   {
@@ -112,9 +112,9 @@ export function SiteFooter() {
               >
                 <MapPin className="mt-0.5 size-4 shrink-0 text-accent" />
                 <span>
-                  149C Trương Định, phường Nhiêu Lộc
-                  <br />
-                  Tp. Hồ Chí Minh, Việt Nam
+                  149C Truong Dinh, Nhieu Loc Ward
+                      <br />
+                      Ho Chi Minh City, Vietnam
                 </span>
               </a>
             </address>

@@ -6,16 +6,16 @@ import Image from "next/image"
 import { useEffect, useRef } from "react"
 
 const insights = [
-  { value: "100%", label: "Khách hàng\nhài lòng" },
-  { value: "8+", label: "Năm kinh nghiệm\nvận hành" },
-  { value: "100+", label: "Dự án\nđã hoàn thành" },
+  { value: "100%", label: "Satisfied\nClients" },
+  { value: "8+", label: "Years of\nExperience" },
+  { value: "100+", label: "Projects\nCompleted" },
 ]
 
 const projects = [
-  { title: "Nhật ký vận hành", image: "/images/hero-banner.png", from: { x: 600, y: -710, rotate: -7 } },
-  { title: "Thị trường thiết bị", image: "/images/hero-banner-2.png", from: { x: 0, y: -730, rotate: 4 } },
-  { title: "Quản lý doanh nghiệp", image: "/images/footer-card.png", from: { x: 620, y: -1110, rotate: 7 } },
-  { title: "Bảo trì bảo dưỡng", image: "/images/hero-banner.png", from: { x: 0, y: -1130, rotate: -5 } },
+  { title: "Operation Log", image: "/images/hero-banner.png", from: { x: 600, y: -710, rotate: -7 } },
+  { title: "Equipment Market", image: "/images/hero-banner-2.png", from: { x: 0, y: -730, rotate: 4 } },
+  { title: "Enterprise Management", image: "/images/footer-card.png", from: { x: 620, y: -1110, rotate: 7 } },
+  { title: "Maintenance", image: "/images/hero-banner.png", from: { x: 0, y: -1130, rotate: -5 } },
 ]
 
 gsap.registerPlugin(ScrollTrigger)
@@ -102,16 +102,16 @@ export function FeaturedStorySections() {
           <div className="relative z-20" data-reveal>
             <p className="mb-5 flex items-center gap-3 text-sm font-semibold tracking-wide text-muted-foreground">
               <span className="size-2 rounded-full bg-accent shadow-[0_0_18px_rgba(190,215,49,0.75)]" />
-              Bạn có biết ?
+              Did you know?
             </p>
             <h2
               data-know-title
               className="max-w-2xl bg-[linear-gradient(90deg,var(--primary)_0%,var(--primary)_50%,color-mix(in_oklch,var(--primary),transparent_82%)_50%)] bg-[length:200%_100%] bg-clip-text text-5xl font-bold leading-[0.95] tracking-[-0.065em] text-transparent sm:text-6xl lg:text-7xl"
             >
-              Những giải pháp tạo ra để phát triển cùng doanh nghiệp.
+              Solutions built to grow with your business.
             </h2>
             <p className="mt-8 max-w-xl text-lg leading-8 text-muted-foreground">
-              Từ ý tưởng đến sản phẩm hoàn chỉnh, QMaster tạo ra giải pháp phù hợp cho từng mô hình vận hành.
+              From idea to finished product, QMaster creates the right solution for every operating model.
             </p>
 
             <div className="mt-10 grid max-w-2xl gap-5 sm:grid-cols-3">
@@ -140,7 +140,7 @@ export function FeaturedStorySections() {
                 >
                   <Image alt={project.title} className="object-cover object-[center_82%]" fill sizes="500px" src={project.image} />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/62 via-transparent to-transparent" />
-                  <div className="absolute right-5 top-5 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20">
+                  <div className="absolute right-5 top-5 rounded-full bg-accent px-4 py-2 text-sm font-bold text-accent-foreground shadow-lg shadow-accent/20">
                     {project.title}
                   </div>
                 </div>
@@ -154,14 +154,14 @@ export function FeaturedStorySections() {
             <div>
               <p className="mb-4 flex items-center gap-3 text-sm font-bold uppercase tracking-[0.22em] text-primary">
                 <span className="size-2 rounded-full bg-accent" />
-                Các dự án nổi bật
+                Featured Projects
               </p>
               <h2 className="max-w-3xl text-4xl font-bold tracking-[-0.055em] text-primary sm:text-6xl">
-                Giải pháp vận hành tối ưu
+                Optimal Operations Solutions
               </h2>
             </div>
             <p className="max-w-md text-base leading-7 text-muted-foreground">
-              Công nghệ vận hành đồng hành cùng thiết bị, đội ngũ và thương hiệu.
+              Operations technology that works alongside equipment, teams, and brands.
             </p>
           </div>
 
