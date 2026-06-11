@@ -1,8 +1,11 @@
 "use client"
 
+import { Mail, MapPin, Phone } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+
+const GG_MAP_URL = "https://www.google.com/maps/search/149C+Truong+Dinh,+phuong+Nhieu+Loc,+tp+HCM"
 
 const footerLinks = [
   {
@@ -11,16 +14,15 @@ const footerLinks = [
       { label: "Projects", href: "/project" },
       { label: "Services", href: "/service" },
       { label: "Company", href: "/company" },
-      { label: "Contact us", href: "mailto:hello@qmaster.com" },
+      { label: "Contact us", href: "mailto:nguyenhainam17052004@gmail.com" },
     ],
   },
   {
-    title: "Social",
+    title: "Giờ làm việc",
     links: [
-      { label: "LinkedIn", href: "#" },
-      { label: "Facebook", href: "#" },
-      { label: "Instagram", href: "#" },
-      { label: "Youtube", href: "#" },
+      { label: "Thứ 2 - Thứ 6: 8:00 - 17:30" },
+      { label: "Thứ 7: 8:00 - 12:00" },
+      { label: "Chủ nhật: Nghỉ" },
     ],
   },
   {
@@ -102,24 +104,86 @@ export function SiteFooter() {
               <Image alt="QMaster" className="h-9 w-auto" height={180} src="/images/logo.png" width={653} />
             </Link>
             <address className="mt-6 not-italic text-sm leading-6 text-primary-foreground/70">
-              QMaster Operations Suite
-              <br />
-              Built for project, service, and company clarity
-              <br />
-              Phnom Penh, Cambodia
+              <a
+                className="flex items-start gap-2 text-primary-foreground/70 transition hover:text-accent"
+                href={GG_MAP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MapPin className="mt-0.5 size-4 shrink-0 text-accent" />
+                <span>
+                  149C Trương Định, phường Nhiêu Lộc
+                  <br />
+                  Tp. Hồ Chí Minh, Việt Nam
+                </span>
+              </a>
             </address>
 
-            <div className="mt-7 grid max-w-md grid-cols-2 gap-6 text-sm">
-              <div>
-                <p className="mb-2 text-primary-foreground/50">Phone number</p>
-                <a className="text-primary-foreground transition hover:text-accent" href="tel:+855000000000">
-                  +855 00 000 000
+            <div className="mt-5 flex flex-col gap-4 text-sm">
+              <a
+                className="flex items-center gap-2 text-primary-foreground transition hover:text-accent"
+                href="tel:0931613788"
+              >
+                <Phone className="size-4 shrink-0 text-accent" />
+                0931 613 788
+              </a>
+              <a
+                className="flex items-center gap-2 text-primary-foreground transition hover:text-accent"
+                href="mailto:nguyenhainam17052004@gmail.com"
+              >
+                <Mail className="size-4 shrink-0 text-accent" />
+                nguyenhainam17052004@gmail.com
+              </a>
+
+              {/* Social icons */}
+              <div className="mt-2 flex items-center gap-2">
+                <a
+                  className="flex size-9 items-center justify-center rounded-lg border border-primary-foreground/20 text-primary-foreground/80 transition hover:border-accent hover:bg-accent/10 hover:text-accent"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                >
+                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
                 </a>
-              </div>
-              <div>
-                <p className="mb-2 text-primary-foreground/50">Email</p>
-                <a className="text-primary-foreground transition hover:text-accent" href="mailto:hello@qmaster.com">
-                  hello@qmaster.com
+                <a
+                  className="flex size-9 items-center justify-center rounded-lg border border-primary-foreground/20 text-primary-foreground/80 transition hover:border-accent hover:bg-accent/10 hover:text-accent"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                >
+                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                  </svg>
+                </a>
+                <a
+                  className="flex size-9 items-center justify-center rounded-lg border border-primary-foreground/20 text-primary-foreground/80 transition hover:border-accent hover:bg-accent/10 hover:text-accent"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                >
+                  <svg className="size-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <rect width="16" height="16" x="4" y="4" rx="4" />
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M17.5 6.5h.01" />
+                  </svg>
+                </a>
+                <a
+                  className="flex size-9 items-center justify-center rounded-lg border border-primary-foreground/20 text-primary-foreground/80 transition hover:border-accent hover:bg-accent/10 hover:text-accent"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube"
+                >
+                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.46 3.5 12 3.5 12 3.5s-7.46 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.6 31.6 0 0 0 0 12c0 1.95.16 3.88.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.92.55 9.38.55 9.38.55s7.46 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14c.33-1.93.5-3.86.5-5.81 0-1.95-.17-3.88-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z" />
+                  </svg>
                 </a>
               </div>
             </div>
@@ -130,11 +194,17 @@ export function SiteFooter() {
               <div key={group.title}>
                 <h3 className="text-sm font-medium text-accent">{group.title}</h3>
                 <div className="mt-5 flex flex-col gap-3">
-                  {group.links.map((link) => (
-                    <Link className="text-sm text-primary-foreground/80 transition hover:text-accent" href={link.href} key={link.label}>
-                      {link.label}
-                    </Link>
-                  ))}
+                  {group.links.map((link: any) =>
+                    link.href ? (
+                      <Link className="block w-full text-sm text-primary-foreground/80 transition hover:text-accent" href={link.href} key={link.label}>
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <span className="block w-full text-sm text-primary-foreground/60" key={link.label}>
+                        {link.label}
+                      </span>
+                    )
+                  )}
                 </div>
               </div>
             ))}
