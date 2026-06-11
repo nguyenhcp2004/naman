@@ -93,7 +93,7 @@ export function FeaturedStorySections() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative overflow-visible bg-background py-20 text-foreground lg:py-28">
+    <section ref={sectionRef} className="relative overflow-visible bg-background py-20 text-foreground lg:py-28 pb-50">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_86%_14%,color-mix(in_oklch,var(--accent),transparent_58%),transparent_22%),linear-gradient(180deg,color-mix(in_oklch,var(--background),var(--primary)_4%),var(--background)_54%)]" />
       <div className="absolute right-0 top-20 hidden h-[620px] w-52 bg-[radial-gradient(circle,color-mix(in_oklch,var(--primary),transparent_74%)_1px,transparent_1.8px)] bg-[length:14px_14px] opacity-25 lg:block" />
 
@@ -165,7 +165,7 @@ export function FeaturedStorySections() {
             </p>
           </div>
 
-          <div className="relative z-30 h-[860px] lg:mx-10">
+          <div className="relative z-30 h-[700px] lg:mx-10">
             {projects.map((project, index) => (
               <article
                 data-project-card={index}
@@ -191,10 +191,6 @@ export function FeaturedStorySections() {
                 </div>
               </article>
             ))}
-          </div>
-
-          <div className="mx-auto mt-14 flex size-20 items-center justify-center rounded-full border border-border bg-card text-4xl font-light text-primary shadow-xl shadow-primary/10">
-            +
           </div>
         </div>
       </div>

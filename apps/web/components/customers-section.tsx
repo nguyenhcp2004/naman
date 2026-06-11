@@ -4,7 +4,6 @@ import { type COBEOptions } from "cobe"
 
 import { Globe } from "@workspace/ui/components/globe"
 import { Marquee } from "@workspace/ui/components/marquee"
-import { cn } from "@workspace/ui/lib/utils"
 
 const CUSTOM_GLOBE_CONFIG: COBEOptions = {
   width: 800,
@@ -75,45 +74,25 @@ const CUSTOM_GLOBE_CONFIG: COBEOptions = {
   ],
 }
 
-// Mock brand logos — replace with real images later
-const brands = [
-  { name: "VinGroup", color: "bg-red-600" },
-  { name: "Vietcombank", color: "bg-green-700" },
-  { name: "VNG", color: "bg-orange-500" },
-  { name: "FPT", color: "bg-red-700" },
-  { name: "Masan", color: "bg-blue-800" },
-  { name: "Techcombank", color: "bg-blue-600" },
-  { name: "Vinhomes", color: "bg-amber-700" },
-  { name: "VietJet", color: "bg-cyan-600" },
-  { name: "Thaco", color: "bg-indigo-700" },
-  { name: "Hoa Phat", color: "bg-emerald-700" },
-  { name: "Viettel", color: "bg-stone-800" },
-  { name: "MobiFone", color: "bg-purple-700" },
-]
+const brandImages = Array.from({ length: 14 }, (_, i) => i + 1)
 
-function BrandLogo({ name, color }: { name: string; color: string }) {
-  const initials = name
-    .split(/(?=[A-Z])/)
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase()
-
+function BrandLogo({ index }: { index: number }) {
   return (
-    <figure className="relative grid h-16 w-36 shrink-0 place-items-center rounded-xl border border-border bg-card p-3 shadow-sm">
-      <div className={cn("flex size-8 items-center justify-center rounded-full", color)}>
-        <span className="text-xs font-bold text-white">{initials}</span>
-      </div>
-      <figcaption className="mt-0.5 text-[11px] font-semibold text-muted-foreground">
-        {name}
-      </figcaption>
+    <figure className="relative flex h-16 w-36 shrink-0 items-center justify-center rounded-xl border border-border bg-card p-3 shadow-sm">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/images/partner/brand_${index}.jpg`}
+        alt={`Partner brand ${index}`}
+        className="max-h-full max-w-full object-contain"
+        loading="lazy"
+      />
     </figure>
   )
 }
 
 export function CustomersSection() {
   return (
-    <section className="relative overflow-hidden bg-background pb-16 pt-16 lg:pb-20 lg:pt-20">
+    <section className="relative overflow-hidden bg-background pb-36 pt-16 lg:pb-52 lg:pt-20">
       {/* top border line */}
       <div className="absolute inset-x-0 top-0 h-px bg-border" />
 
@@ -148,14 +127,14 @@ export function CustomersSection() {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-background to-transparent" />
 
           <Marquee reverse pauseOnHover repeat={2} className="[--duration:40s]">
-            {brands.map((brand) => (
-              <BrandLogo key={brand.name} name={brand.name} color={brand.color} />
+            {brandImages.map((i) => (
+              <BrandLogo key={i} index={i} />
             ))}
           </Marquee>
 
           <Marquee pauseOnHover repeat={2} className="mt-3 [--duration:35s]">
-            {[...brands].reverse().map((brand) => (
-              <BrandLogo key={brand.name} name={brand.name} color={brand.color} />
+            {[...brandImages].reverse().map((i) => (
+              <BrandLogo key={i} index={i} />
             ))}
           </Marquee>
         </div>
