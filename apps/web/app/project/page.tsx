@@ -21,5 +21,5 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ProjectPage() {
   const page = await sanityFetch<SanityProjectPage>({ query: PROJECT_PAGE_QUERY })
 
-  return <ProjectPageContent sections={page?.sections} title={page?.title} />
+  return <ProjectPageContent page={page} />
 }

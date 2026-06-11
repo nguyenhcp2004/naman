@@ -3,31 +3,58 @@
 import { motion } from "motion/react"
 
 type ProjectSection = {
+  _key?: string
   title?: string
   subtitle?: string
 }
 
-type ProjectPageContentProps = {
+type ProjectCard = {
+  _key?: string
   title?: string
-  sections?: ProjectSection[]
+  description?: string
 }
 
-const planningSteps = [
+type ProjectPage = {
+  title?: string
+  sections?: ProjectSection[]
+  projectPlanningSteps?: string[]
+  projectServices?: ProjectCard[]
+  projectReferences?: ProjectCard[]
+  projectMarqueeItems?: string[]
+} | null
+
+type ProjectPageContentProps = {
+  page: ProjectPage
+}
+
+const fallbackPlanningSteps = [
   "Review kitchen capacity, workflow, and refrigeration needs before planning equipment.",
   "Coordinate layout, utilities, delivery timing, and installation requirements with each site.",
   "Support procurement and handover with clear specifications, documentation, and after-sales care.",
 ]
 
-const services = [
-  "Commercial kitchen equipment",
-  "Refrigeration systems",
-  "Project consultation",
-  "Installation support",
+const fallbackServices = [
+  {
+    title: "Commercial kitchen equipment",
+    description: "Professional supply support for food service environments that need dependable equipment.",
+  },
+  {
+    title: "Refrigeration systems",
+    description: "Cold storage, display, and preservation systems selected for daily operational reliability.",
+  },
+  {
+    title: "Project consultation",
+    description: "Guidance for matching equipment specifications to kitchen workflow and site requirements.",
+  },
+  {
+    title: "Installation support",
+    description: "Delivery coordination, handover support, and after-sales care for commercial projects.",
+  },
 ]
 
-const scrollText = ["Kitchen equipment", "Cold storage", "Site planning", "Delivery support", "After-sales care"]
+const fallbackScrollText = ["Kitchen equipment", "Cold storage", "Site planning", "Delivery support", "After-sales care"]
 
-const references = [
+const fallbackReferences = [
   {
     title: "Restaurant kitchen setup",
     description: "Supplied core cooking, preparation, and refrigeration equipment for a high-volume food service space.",
@@ -41,6 +68,10 @@ const references = [
     description: "Provided dependable refrigeration equipment for product display, storage, and daily operations.",
   },
 ]
+
+function withFallback<T>(items: T[] | undefined, fallback: T[]) {
+  return items?.length ? items : fallback
+}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -56,10 +87,16 @@ const stagger = {
   },
 }
 
-export function ProjectPageContent({ title, sections = [] }: ProjectPageContentProps) {
+export function ProjectPageContent({ page }: ProjectPageContentProps) {
+  const title = page?.title
+  const sections = page?.sections ?? []
   const planningSection = sections[0]
   const servicesSection = sections[1]
   const referencesSection = sections[2]
+  const planningSteps = withFallback(page?.projectPlanningSteps, fallbackPlanningSteps)
+  const services = withFallback(page?.projectServices, fallbackServices)
+  const references = withFallback(page?.projectReferences, fallbackReferences)
+  const scrollText = withFallback(page?.projectMarqueeItems, fallbackScrollText)
 
   return (
     <main className="bg-background text-foreground">
@@ -162,16 +199,16 @@ export function ProjectPageContent({ title, sections = [] }: ProjectPageContentP
             {services.map((service) => (
               <motion.div
                 className="rounded-2xl border border-border bg-background p-5"
-                key={service}
+                key={service._key ?? service.title}
                 variants={fadeUp}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -4 }}
               >
                 <span className="mb-8 block h-1.5 w-12 rounded-full bg-accent" />
-                <h3 className="text-xl font-semibold tracking-tight">{service}</h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  Professional supply support for food service environments that need dependable equipment.
-                </p>
+                <h3 className="text-xl font-semibold tracking-tight">{service.title}</h3>
+                {service.description ? (
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.description}</p>
+                ) : null}
               </motion.div>
             ))}
           </div>
@@ -208,7 +245,7 @@ export function ProjectPageContent({ title, sections = [] }: ProjectPageContentP
           {references.map((reference) => (
             <motion.article
               className="rounded-3xl border border-border bg-card p-6"
-              key={reference.title}
+              key={reference._key ?? reference.title}
               variants={fadeUp}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -6 }}

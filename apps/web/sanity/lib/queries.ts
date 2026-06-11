@@ -5,9 +5,22 @@ export const PROJECT_PAGE_QUERY = defineQuery(/* groq */ `
     title,
     pageType,
     sections[]{
+      _key,
       title,
       subtitle
     },
+    projectPlanningSteps,
+    projectServices[]{
+      _key,
+      title,
+      description
+    },
+    projectReferences[]{
+      _key,
+      title,
+      description
+    },
+    projectMarqueeItems,
     seo{
       title,
       description,

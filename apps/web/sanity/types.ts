@@ -6,14 +6,25 @@ type Seo = {
 }
 
 type ContentSection = {
+  _key?: string
   title?: string
   subtitle?: string
+}
+
+type ProjectCard = {
+  _key?: string
+  title?: string
+  description?: string
 }
 
 export type ProjectPage = {
   title?: string
   pageType?: string
   sections?: ContentSection[]
+  projectPlanningSteps?: string[]
+  projectServices?: ProjectCard[]
+  projectReferences?: ProjectCard[]
+  projectMarqueeItems?: string[]
   seo?: Seo
 } | null
 type SanityImage = {
