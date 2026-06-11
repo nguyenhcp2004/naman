@@ -6,6 +6,9 @@ import { FeaturedStorySections } from "@/components/featured-story-sections"
 import { HeroSlider } from "@/components/hero-slider"
 import { SmoothScroll } from "@/components/smooth-scroll"
 import { Button } from "@workspace/ui/components/button"
+import { sanityFetch } from "@/sanity/lib/client"
+import { LANDING_PAGE_QUERY } from "@/sanity/lib/queries"
+import type { LandingPage } from "@/sanity/types"
 
 const stats = [
   { value: "42%", label: "faster operation reviews" },
@@ -31,7 +34,12 @@ const features = [
 const steps = ["Map the operation", "Align the team", "Track every signal", "Improve every cycle"]
 const chartPoints = [54, 62, 58, 72, 69, 84, 79, 92]
 
-export default function Page() {
+export default async function Page() {
+  const page = await sanityFetch<LandingPage>({ query: LANDING_PAGE_QUERY })
+  const hero = page?.hero
+  const cta = hero?.callToAction
+  const ctaHref = cta?.linkType === "external" ? cta.url : cta?.path
+
   return (
     <>
       <SmoothScroll />
