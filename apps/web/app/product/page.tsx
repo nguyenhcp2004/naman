@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { 
   Search, 
   SlidersHorizontal, 
@@ -32,6 +32,30 @@ export default function ProductPage() {
   const [quoteSubmitted, setQuoteSubmitted] = useState(false)
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", notes: "" })
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  // Load quote list from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("qmaster-quote-basket")
+      if (stored) {
+        const parsed = JSON.parse(stored)
+        if (Array.isArray(parsed)) {
+          const loaded: { product: Product; quantity: number }[] = []
+          parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
+            const product = productsData.find(p => p.id === (item.product?.id || item.productId))
+            if (product) {
+              loaded.push({ product, quantity: item.quantity || 1 })
+            }
+          })
+          setTimeout(() => {
+            setQuoteItems(loaded)
+          }, 0)
+        }
+      }
+    } catch (e) {
+      console.error("Error reading quote basket from localStorage", e)
+    }
+  }, [])
 
   // Memoized Filtered & Sorted Products
   const filteredProducts = useMemo(() => {
@@ -78,30 +102,52 @@ export default function ProductPage() {
   const addToQuote = (product: Product) => {
     setQuoteItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id)
+      let next
       if (existing) {
-        return prev.map((item) => 
+        next = prev.map((item) => 
           item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         )
+      } else {
+        next = [...prev, { product, quantity: 1 }]
       }
-      return [...prev, { product, quantity: 1 }]
+      try {
+        localStorage.setItem("qmaster-quote-basket", JSON.stringify(next))
+      } catch {
+        // ignore storage errors
+      }
+      return next
     })
     setIsQuoteOpen(true)
   }
 
   const updateQuantity = (productId: string, delta: number) => {
-    setQuoteItems((prev) => 
-      prev.map((item) => {
+    setQuoteItems((prev) => {
+      const next = prev.map((item) => {
         if (item.product.id === productId) {
           const newQty = item.quantity + delta
           return newQty > 0 ? { ...item, quantity: newQty } : null
         }
         return item
       }).filter((item): item is { product: Product; quantity: number } => item !== null)
-    )
+      try {
+        localStorage.setItem("qmaster-quote-basket", JSON.stringify(next))
+      } catch {
+        // ignore storage errors
+      }
+      return next
+    })
   }
 
   const removeFromQuote = (productId: string) => {
-    setQuoteItems((prev) => prev.filter((item) => item.product.id !== productId))
+    setQuoteItems((prev) => {
+      const next = prev.filter((item) => item.product.id !== productId)
+      try {
+        localStorage.setItem("qmaster-quote-basket", JSON.stringify(next))
+      } catch {
+        // ignore storage errors
+      }
+      return next
+    })
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -114,6 +160,11 @@ export default function ProductPage() {
     setQuoteSubmitted(true)
     setTimeout(() => {
       setQuoteItems([])
+      try {
+        localStorage.removeItem("qmaster-quote-basket")
+      } catch {
+        // ignore storage errors
+      }
       setQuoteSubmitted(false)
       setIsQuoteOpen(false)
       setFormData({ name: "", email: "", phone: "", notes: "" })

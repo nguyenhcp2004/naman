@@ -11,6 +11,7 @@ const navigationItems = [
   { label: "Project", href: "/project" },
   { label: "Service", href: "/service" },
   { label: "Company", href: "/company" },
+  { label: "Contact", href: "/contact" },
 ]
 
 export function SiteHeader() {
