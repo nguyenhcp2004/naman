@@ -13,7 +13,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onAddToQuote }: ProductCardProps) {
   return (
-    <div className="group relative flex flex-col justify-between rounded bg-white p-4 border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+    <div className="group relative flex flex-col justify-between rounded bg-card p-4 border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
       {/* Visual Status Badges */}
       <div className="absolute left-4 top-4 z-10 flex flex-col gap-1.5">
         {product.isPremium && (
@@ -44,7 +44,7 @@ export function ProductCard({ product, onAddToQuote }: ProductCardProps) {
           {product.category}
         </span>
         <Link href={`/product/${product.id}`} className="block hover:underline cursor-pointer">
-          <h3 className="mt-1 text-sm font-bold text-primary truncate">
+          <h3 className="mt-1 text-sm font-bold text-foreground truncate">
             {product.model}
           </h3>
         </Link>

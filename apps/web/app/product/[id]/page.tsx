@@ -194,8 +194,8 @@ export default function ProductDetailPage({ params }: PageProps) {
 
             {/* Fast facts / Bullet specs checklist */}
             <div className="rounded border border-border bg-muted/20 p-5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-primary mb-3 flex items-center gap-2">
-                <Info className="h-4 w-4 text-primary" />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-2">
+                <Info className="h-4 w-4 text-primary dark:text-accent" />
                 Key Highlights
               </h4>
               <ul className="space-y-2 text-xs leading-relaxed text-foreground/80">
@@ -214,7 +214,7 @@ export default function ProductDetailPage({ params }: PageProps) {
             <div>
               {/* Status and Category tags */}
               <div className="flex items-center gap-3 flex-wrap">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-primary dark:text-accent bg-primary/10 dark:bg-muted px-2 py-0.5 rounded">
                   {product.category}
                 </span>
 
@@ -234,7 +234,7 @@ export default function ProductDetailPage({ params }: PageProps) {
               <h2 className="mt-3 text-sm font-bold text-secondary-foreground uppercase tracking-widest font-mono">
                 Model: {product.id.toUpperCase()}
               </h2>
-              <h1 className="mt-1 text-3xl font-bold text-primary tracking-tight md:text-4xl leading-tight">
+              <h1 className="mt-1 text-3xl font-bold text-foreground tracking-tight md:text-4xl leading-tight">
                 {product.model}
               </h1>
               <p className="mt-1 text-base text-muted-foreground font-semibold">
@@ -255,19 +255,19 @@ export default function ProductDetailPage({ params }: PageProps) {
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div className="border border-border/85 bg-muted/10 p-3.5 rounded flex flex-col justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Temperature Range</span>
-                  <span className="text-base font-bold text-primary font-mono mt-1">{product.tempRange}</span>
+                  <span className="text-base font-bold text-foreground font-mono mt-1">{product.tempRange}</span>
                 </div>
                 <div className="border border-border/85 bg-muted/10 p-3.5 rounded flex flex-col justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Storage Capacity</span>
-                  <span className="text-base font-bold text-primary font-mono mt-1">{product.capacity}</span>
+                  <span className="text-base font-bold text-foreground font-mono mt-1">{product.capacity}</span>
                 </div>
                 <div className="border border-border/85 bg-muted/10 p-3.5 rounded flex flex-col justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Power Requirements</span>
-                  <span className="text-base font-bold text-primary font-mono mt-1">{product.power.split('/')[2] || product.power}</span>
+                  <span className="text-base font-bold text-foreground font-mono mt-1">{product.power.split('/')[2] || product.power}</span>
                 </div>
                 <div className="border border-border/85 bg-muted/10 p-3.5 rounded flex flex-col justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Outer Dimensions</span>
-                  <span className="text-base font-bold text-primary font-mono mt-1">{product.dimensions}</span>
+                  <span className="text-base font-bold text-foreground font-mono mt-1">{product.dimensions}</span>
                 </div>
               </div>
             </div>
@@ -310,7 +310,7 @@ export default function ProductDetailPage({ params }: PageProps) {
       {relatedProducts.length > 0 && (
         <section className="border-t border-border bg-muted/20 py-12 px-5 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <h3 className="text-lg font-bold text-primary mb-1 uppercase tracking-wider">Related Equipment</h3>
+            <h3 className="text-lg font-bold text-foreground mb-1 uppercase tracking-wider">Related Equipment</h3>
             <p className="text-xs text-muted-foreground mb-8">Other commercial cooling solutions matching your catalog requirements</p>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

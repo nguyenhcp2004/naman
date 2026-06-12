@@ -15,11 +15,11 @@ export function DetailBreadcrumbs({ product, totalQuoteItems, onOpenQuote }: Det
     <section className="border-b border-border bg-muted/40 px-5 py-4 lg:px-8">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
         <nav className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          <Link href="/product" className="hover:text-primary transition-colors">Catalog</Link>
+          <Link href="/product" className="hover:text-foreground dark:hover:text-accent transition-colors">Catalog</Link>
           <span>/</span>
           <Link 
             href={`/product?category=${encodeURIComponent(product.category)}`} 
-            className="hover:text-primary transition-colors"
+            className="hover:text-foreground dark:hover:text-accent transition-colors"
           >
             {product.category}
           </Link>
@@ -42,7 +42,7 @@ export function DetailBreadcrumbs({ product, totalQuoteItems, onOpenQuote }: Det
             <ShoppingBag className="h-3.5 w-3.5" />
             <span>Quote Basket</span>
             {totalQuoteItems > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-primary text-[9px] text-primary-foreground font-bold border-2 border-white">
+              <span className="absolute -top-1.5 -right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-primary text-[9px] text-primary-foreground font-bold border-2 border-white dark:border-background">
                 {totalQuoteItems}
               </span>
             )}

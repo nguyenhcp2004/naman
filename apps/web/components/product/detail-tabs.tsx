@@ -19,7 +19,7 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
           onClick={() => onTabChange("specs")}
           className={`px-5 py-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
             activeTab === "specs"
-              ? "border-primary text-primary bg-card"
+              ? "border-primary dark:border-accent text-primary dark:text-accent bg-card"
               : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -29,7 +29,7 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
           onClick={() => onTabChange("downloads")}
           className={`px-5 py-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
             activeTab === "downloads"
-              ? "border-primary text-primary bg-card"
+              ? "border-primary dark:border-accent text-primary dark:text-accent bg-card"
               : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -39,7 +39,7 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
           onClick={() => onTabChange("warranty")}
           className={`px-5 py-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
             activeTab === "warranty"
-              ? "border-primary text-primary bg-card"
+              ? "border-primary dark:border-accent text-primary dark:text-accent bg-card"
               : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -52,7 +52,7 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
         {activeTab === "specs" && (
           <div className="space-y-6">
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">General Information</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3">General Information</h3>
               <div className="border border-border rounded overflow-hidden divide-y divide-border">
                 <div className="grid grid-cols-3 p-3 text-xs">
                   <div className="font-bold text-muted-foreground">Category</div>
@@ -70,7 +70,7 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
             </div>
 
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Performance & Cooling</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3">Performance & Cooling</h3>
               <div className="border border-border rounded overflow-hidden divide-y divide-border">
                 <div className="grid grid-cols-3 p-3 text-xs">
                   <div className="font-bold text-muted-foreground">Temperature Range</div>
@@ -92,7 +92,7 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
             </div>
 
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Dimensions & Weight</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3">Dimensions & Weight</h3>
               <div className="border border-border rounded overflow-hidden divide-y divide-border">
                 <div className="grid grid-cols-3 p-3 text-xs">
                   <div className="font-bold text-muted-foreground">External Dimensions</div>
@@ -110,7 +110,7 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
             </div>
 
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Electrical specs</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3">Electrical specs</h3>
               <div className="border border-border rounded overflow-hidden divide-y divide-border">
                 <div className="grid grid-cols-3 p-3 text-xs">
                   <div className="font-bold text-muted-foreground">Power Input Source</div>
@@ -132,9 +132,9 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
                 onClick={(e) => { e.preventDefault(); alert("Mock download: Technical Specification Sheet PDF triggered.") }}
                 className="flex items-center gap-3 p-3 border border-border rounded hover:bg-muted/30 transition-colors group cursor-pointer"
               >
-                <FileText className="h-5 w-5 text-primary shrink-0" />
+                <FileText className="h-5 w-5 text-primary dark:text-accent shrink-0" />
                 <div className="min-w-0">
-                  <span className="block text-xs font-bold text-primary truncate group-hover:underline">Spec Sheet (PDF)</span>
+                  <span className="block text-xs font-bold text-foreground truncate group-hover:underline">Spec Sheet (PDF)</span>
                   <span className="block text-[10px] text-muted-foreground">Size: 1.4 MB | Language: EN</span>
                 </div>
                 <Download className="h-4 w-4 text-muted-foreground ml-auto shrink-0" />
@@ -145,9 +145,9 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
                 onClick={(e) => { e.preventDefault(); alert("Mock download: Installation & Operating Manual PDF triggered.") }}
                 className="flex items-center gap-3 p-3 border border-border rounded hover:bg-muted/30 transition-colors group cursor-pointer"
               >
-                <FileText className="h-5 w-5 text-primary shrink-0" />
+                <FileText className="h-5 w-5 text-primary dark:text-accent shrink-0" />
                 <div className="min-w-0">
-                  <span className="block text-xs font-bold text-primary truncate group-hover:underline">User Manual (PDF)</span>
+                  <span className="block text-xs font-bold text-foreground truncate group-hover:underline">User Manual (PDF)</span>
                   <span className="block text-[10px] text-muted-foreground">Size: 3.2 MB | Language: EN</span>
                 </div>
                 <Download className="h-4 w-4 text-muted-foreground ml-auto shrink-0" />
@@ -158,9 +158,9 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
                 onClick={(e) => { e.preventDefault(); alert("Mock download: DXF/CAD technical schematic drawing files triggered.") }}
                 className="flex items-center gap-3 p-3 border border-border rounded hover:bg-muted/30 transition-colors group cursor-pointer"
               >
-                <FileText className="h-5 w-5 text-primary shrink-0" />
+                <FileText className="h-5 w-5 text-primary dark:text-accent shrink-0" />
                 <div className="min-w-0">
-                  <span className="block text-xs font-bold text-primary truncate group-hover:underline">CAD Drawing (DXF)</span>
+                  <span className="block text-xs font-bold text-foreground truncate group-hover:underline">CAD Drawing (DXF)</span>
                   <span className="block text-[10px] text-muted-foreground">Size: 850 KB | Engineering Layout</span>
                 </div>
                 <Download className="h-4 w-4 text-muted-foreground ml-auto shrink-0" />
@@ -172,9 +172,9 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
         {activeTab === "warranty" && (
           <div className="grid gap-6 md:grid-cols-2">
             <div className="flex gap-4 p-4 border border-border rounded bg-muted/10">
-              <ShieldCheck className="h-8 w-8 text-primary shrink-0" />
+              <ShieldCheck className="h-8 w-8 text-primary dark:text-accent shrink-0" />
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-primary mb-1">12-Month Commercial Warranty</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-1">12-Month Commercial Warranty</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   All 3Q hospitality equipment is backed by a full 1-year commercial warranty covering mechanical components, digital controllers, and refrigeration assemblies under normal operating conditions.
                 </p>
@@ -182,9 +182,9 @@ export function DetailTabs({ product, activeTab, onTabChange }: DetailTabsProps)
             </div>
 
             <div className="flex gap-4 p-4 border border-border rounded bg-muted/10">
-              <Wrench className="h-8 w-8 text-primary shrink-0" />
+              <Wrench className="h-8 w-8 text-primary dark:text-accent shrink-0" />
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-primary mb-1">Engineering Service Support</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-1">Engineering Service Support</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   We offer full life-cycle equipment support, replacement parts procurement, and emergency engineering service dispatch options to keep your operations running continuously.
                 </p>

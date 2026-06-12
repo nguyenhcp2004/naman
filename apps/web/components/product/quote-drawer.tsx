@@ -78,7 +78,7 @@ export function QuoteDrawer({
                       <Blueprint type={item.product.imageType} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-xs font-bold text-primary truncate">{item.product.model}</h4>
+                      <h4 className="text-xs font-bold text-foreground truncate">{item.product.model}</h4>
                       <p className="text-[11px] text-muted-foreground line-clamp-1">{item.product.name}</p>
                       <span className="text-[10px] font-semibold font-mono text-secondary-foreground">{item.product.dimensions}</span>
 
@@ -130,7 +130,7 @@ export function QuoteDrawer({
                     value={formData.name}
                     onChange={onFormChange}
                     placeholder="Klaus Hospitality Group"
-                    className="w-full h-10 border border-border bg-[#F1F1F1] px-3 text-sm rounded outline-none focus:border-primary focus:bg-white"
+                    className="w-full h-10 border border-border bg-muted/70 dark:bg-muted/20 px-3 text-sm rounded outline-none focus:border-primary dark:focus:border-accent focus:bg-background"
                   />
                 </div>
                 <div>
@@ -142,7 +142,7 @@ export function QuoteDrawer({
                     value={formData.email}
                     onChange={onFormChange}
                     placeholder="purchasing@klaushospitality.com"
-                    className="w-full h-10 border border-border bg-[#F1F1F1] px-3 text-sm rounded outline-none focus:border-primary focus:bg-white"
+                    className="w-full h-10 border border-border bg-muted/70 dark:bg-muted/20 px-3 text-sm rounded outline-none focus:border-primary dark:focus:border-accent focus:bg-background"
                   />
                 </div>
                 <div>
@@ -154,7 +154,7 @@ export function QuoteDrawer({
                     value={formData.phone}
                     onChange={onFormChange}
                     placeholder="+1 (555) 019-2834"
-                    className="w-full h-10 border border-border bg-[#F1F1F1] px-3 text-sm rounded outline-none focus:border-primary focus:bg-white"
+                    className="w-full h-10 border border-border bg-muted/70 dark:bg-muted/20 px-3 text-sm rounded outline-none focus:border-primary dark:focus:border-accent focus:bg-background"
                   />
                 </div>
                 <div>
@@ -165,7 +165,7 @@ export function QuoteDrawer({
                     value={formData.notes}
                     onChange={onFormChange}
                     placeholder="E.g., customized shelf partitions, optional glass doors, custom size Walk-in coldroom layout request..."
-                    className="w-full border border-border bg-[#F1F1F1] p-3 text-sm rounded outline-none focus:border-primary focus:bg-white resize-none"
+                    className="w-full border border-border bg-muted/70 dark:bg-muted/20 p-3 text-sm rounded outline-none focus:border-primary dark:focus:border-accent focus:bg-background resize-none"
                   />
                 </div>
                 <Button
