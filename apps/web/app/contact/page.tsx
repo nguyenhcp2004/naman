@@ -93,8 +93,8 @@ function ContactContent() {
   const saveToLocalStorage = (items: typeof quoteItems) => {
     try {
       localStorage.setItem("qmaster-quote-basket", JSON.stringify(items))
-    } catch (e) {
-      console.error("Error writing to localStorage", e)
+    } catch {
+      console.error("Error writing to localStorage")
     }
   }
 
@@ -165,11 +165,11 @@ function ContactContent() {
           <p className="mb-3 inline-block rounded-full bg-accent px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-accent-foreground shadow-sm">
             Contact & Consultation
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl mb-4">
-            Tư Vấn & Báo Giá Thiết Bị
+          <h1 className="text-4xl font-bold tracking-tight text-primary dark:text-foreground sm:text-5xl mb-4">
+            Equipment Consultation & Quotation
           </h1>
           <p className="text-base text-muted-foreground leading-relaxed">
-            Đội ngũ kỹ sư thương mại của QMaster luôn sẵn sàng cung cấp các giải pháp làm lạnh công nghiệp, sơ đồ thiết kế bếp và bảng báo giá chi tiết, tối ưu chi phí cho dự án của bạn.
+            Our commercial engineers are ready to design industrial refrigeration solutions, optimize kitchen layouts, and provide detailed, cost-effective quote sheets for your project.
           </p>
         </div>
 
@@ -178,25 +178,25 @@ function ContactContent() {
           <div className="inline-flex rounded-full bg-muted p-1 border border-border/80">
             <button
               onClick={() => setActiveTab("products")}
-              className={`rounded-full px-6 py-2.5 text-sm font-bold transition-all flex items-center gap-2 ${
+              className={`rounded-full px-6 py-2.5 text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
                 activeTab === "products"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <ClipboardList className="h-4 w-4" />
-              <span>Sản phẩm cần tư vấn ({quoteItems.length})</span>
+              <span>Selected Products ({quoteItems.length})</span>
             </button>
             <button
               onClick={() => setActiveTab("general")}
-              className={`rounded-full px-6 py-2.5 text-sm font-bold transition-all flex items-center gap-2 ${
+              className={`rounded-full px-6 py-2.5 text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
                 activeTab === "general"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <Sparkles className="h-4 w-4" />
-              <span>Tư vấn chung & Liên hệ</span>
+              <span>General Request & Info</span>
             </button>
           </div>
         </div>
@@ -210,23 +210,23 @@ function ContactContent() {
                 <div className="h-16 w-16 rounded-full bg-accent/25 flex items-center justify-center text-primary animate-bounce">
                   <Check className="h-8 w-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-primary">Gửi Yêu Cầu Thành Công!</h3>
-                <p className="text-sm text-muted-foreground max-w-md">
-                  Cảm ơn bạn. Yêu cầu báo giá và tư vấn của bạn đã được tiếp nhận. Đội ngũ kỹ sư thương mại của chúng tôi sẽ xử lý thông tin và phản hồi sớm nhất qua Email / Số điện thoại của bạn.
+                <h3 className="text-2xl font-bold text-primary dark:text-foreground">Request Submitted Successfully!</h3>
+                <p className="text-sm text-muted-foreground max-w-md font-sans">
+                  Thank you. Your request has been received. Our commercial supply engineers will review your specifications and contact you shortly.
                 </p>
                 <div className="pt-4 flex gap-4">
                   <Button onClick={() => setFormSubmitted(false)} variant="outline" className="rounded-full px-6 font-bold h-11">
-                    Gửi yêu cầu khác
+                    Send another request
                   </Button>
-                  <Button asChild className="rounded-full px-6 font-bold h-11 bg-primary text-white">
-                    <Link href="/product">Tiếp tục xem sản phẩm</Link>
+                  <Button asChild className="rounded-full px-6 font-bold h-11 bg-primary text-white hover:bg-primary/95">
+                    <Link href="/product">Continue browsing</Link>
                   </Button>
                 </div>
               </div>
             ) : (
               <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-xl shadow-primary/5">
-                <h2 className="text-xl font-bold text-primary mb-6 flex items-center gap-2 pb-3 border-b border-border">
-                  {activeTab === "products" ? "1. Danh sách thiết bị & Thông tin liên hệ" : "1. Nhập thông tin đăng ký tư vấn"}
+                <h2 className="text-xl font-bold text-primary dark:text-foreground mb-6 flex items-center gap-2 pb-3 border-b border-border">
+                  {activeTab === "products" ? "1. Selected Equipment & Contact Details" : "1. Register for Consultation"}
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -236,31 +236,31 @@ function ContactContent() {
                       {quoteItems.length === 0 ? (
                         <div className="rounded-xl border border-dashed border-border bg-muted/30 p-8 text-center">
                           <Info className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                          <p className="text-sm font-semibold text-muted-foreground">Chưa có sản phẩm nào được chọn.</p>
-                          <p className="text-xs text-muted-foreground mt-1 mb-4">Quay lại danh mục sản phẩm để thêm vào danh sách tư vấn báo giá.</p>
+                          <p className="text-sm font-semibold text-muted-foreground">No products selected yet.</p>
+                          <p className="text-xs text-muted-foreground mt-1 mb-4">Add cooling units and industrial equipment items from the main catalog to request specs & pricing.</p>
                           <Button asChild variant="outline" className="rounded-full h-10 px-6 font-bold">
-                            <Link href="/product">Xem sản phẩm</Link>
+                            <Link href="/product">Browse Equipment</Link>
                           </Button>
                         </div>
                       ) : (
                         <div>
                           <div className="grid gap-3 max-h-[350px] overflow-y-auto pr-1 mb-4">
                             {quoteItems.map((item) => (
-                              <div key={item.product.id} className="flex gap-4 p-4 rounded-xl border border-border bg-muted/40 hover:bg-muted/60 transition-all items-center">
-                                <div className="h-16 w-16 bg-white rounded-lg flex items-center justify-center border border-border/80 shrink-0 shadow-sm">
+                              <div key={item.product.id} className="flex gap-4 p-4 rounded-xl border border-border bg-muted/40 hover:bg-muted/60 dark:bg-muted/10 transition-all items-center">
+                                <div className="h-16 w-16 bg-card dark:bg-muted/20 rounded-lg flex items-center justify-center border border-border/80 shrink-0 shadow-sm">
                                   <Blueprint type={item.product.imageType} />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-start justify-between gap-2">
                                     <div>
-                                      <h4 className="text-sm font-bold text-primary truncate">{item.product.model}</h4>
+                                      <h4 className="text-sm font-bold text-primary dark:text-foreground truncate">{item.product.model}</h4>
                                       <p className="text-xs text-muted-foreground line-clamp-1">{item.product.name}</p>
                                     </div>
                                     <button
                                       type="button"
                                       onClick={() => removeItem(item.product.id)}
-                                      className="text-muted-foreground hover:text-destructive p-1 rounded-full hover:bg-destructive/10 transition-all shrink-0"
-                                      title="Xóa khỏi danh sách"
+                                      className="text-muted-foreground hover:text-destructive p-1 rounded-full hover:bg-destructive/10 transition-all shrink-0 cursor-pointer"
+                                      title="Remove from list"
                                     >
                                       <Trash2 className="h-4 w-4" />
                                     </button>
@@ -268,24 +268,24 @@ function ContactContent() {
                                   
                                   {/* Info and Quantity block */}
                                   <div className="flex items-center justify-between mt-2 flex-wrap gap-2">
-                                    <span className="text-[10px] font-semibold font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded border border-border">
+                                    <span className="text-[10px] font-semibold font-mono text-muted-foreground bg-muted/80 dark:bg-muted/20 px-2 py-0.5 rounded border border-border">
                                       {item.product.dimensions}
                                     </span>
                                     <div className="flex items-center gap-3">
                                       <button
                                         type="button"
                                         onClick={() => updateQuantity(item.product.id, -1)}
-                                        className="rounded-full border border-border bg-white h-7 w-7 flex items-center justify-center hover:bg-muted shadow-sm transition-all"
+                                        className="rounded-full border border-border bg-card hover:bg-muted dark:hover:bg-muted/40 h-7 w-7 flex items-center justify-center shadow-sm transition-all cursor-pointer"
                                       >
-                                        <Minus className="h-3 w-3" />
+                                        <Minus className="h-3 w-3 text-foreground" />
                                       </button>
-                                      <span className="text-sm font-bold w-4 text-center">{item.quantity}</span>
+                                      <span className="text-sm font-bold w-4 text-center text-foreground">{item.quantity}</span>
                                       <button
                                         type="button"
                                         onClick={() => updateQuantity(item.product.id, 1)}
-                                        className="rounded-full border border-border bg-white h-7 w-7 flex items-center justify-center hover:bg-muted shadow-sm transition-all"
+                                        className="rounded-full border border-border bg-card hover:bg-muted dark:hover:bg-muted/40 h-7 w-7 flex items-center justify-center shadow-sm transition-all cursor-pointer"
                                       >
-                                        <Plus className="h-3 w-3" />
+                                        <Plus className="h-3 w-3 text-foreground" />
                                       </button>
                                     </div>
                                   </div>
@@ -296,7 +296,7 @@ function ContactContent() {
                           <div className="flex justify-end pb-4 border-b border-border">
                             <Button asChild variant="outline" className="rounded-full h-9 px-4 text-xs font-bold gap-1">
                               <Link href="/product">
-                                <span>Thêm sản phẩm khác</span>
+                                <span>Add other products</span>
                                 <ArrowRight className="h-3.5 w-3.5" />
                               </Link>
                             </Button>
@@ -309,8 +309,8 @@ function ContactContent() {
                   {/* Customer Information Inputs */}
                   <div className="grid gap-6 sm:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-bold text-secondary uppercase tracking-wider mb-2">
-                        Họ và tên <span className="text-destructive">*</span>
+                      <label className="block text-xs font-bold text-secondary dark:text-foreground uppercase tracking-wider mb-2">
+                        Full Name <span className="text-destructive">*</span>
                       </label>
                       <input
                         type="text"
@@ -318,13 +318,13 @@ function ContactContent() {
                         required
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="Nguyễn Văn A"
-                        className="w-full h-11 border border-border bg-muted/50 px-4 text-sm rounded-lg outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all font-sans"
+                        placeholder="John Doe"
+                        className="w-full h-11 border border-border bg-muted/50 dark:bg-muted/10 focus:bg-background dark:focus:bg-background px-4 text-sm rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all font-sans text-foreground placeholder:text-muted-foreground"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-secondary uppercase tracking-wider mb-2">
-                        Số điện thoại <span className="text-destructive">*</span>
+                      <label className="block text-xs font-bold text-secondary dark:text-foreground uppercase tracking-wider mb-2">
+                        Phone Number <span className="text-destructive">*</span>
                       </label>
                       <input
                         type="tel"
@@ -333,14 +333,14 @@ function ContactContent() {
                         value={formData.phone}
                         onChange={handleInputChange}
                         placeholder="09xx xxx xxx"
-                        className="w-full h-11 border border-border bg-muted/50 px-4 text-sm rounded-lg outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all font-sans"
+                        className="w-full h-11 border border-border bg-muted/50 dark:bg-muted/10 focus:bg-background dark:focus:bg-background px-4 text-sm rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all font-sans text-foreground placeholder:text-muted-foreground"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-secondary uppercase tracking-wider mb-2">
-                      Email <span className="text-destructive">*</span>
+                    <label className="block text-xs font-bold text-secondary dark:text-foreground uppercase tracking-wider mb-2">
+                      Email Address <span className="text-destructive">*</span>
                     </label>
                     <input
                       type="email"
@@ -349,56 +349,63 @@ function ContactContent() {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="email@company.com"
-                      className="w-full h-11 border border-border bg-muted/50 px-4 text-sm rounded-lg outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all font-sans"
+                      className="w-full h-11 border border-border bg-muted/50 dark:bg-muted/10 focus:bg-background dark:focus:bg-background px-4 text-sm rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all font-sans text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
 
                   <div className="grid gap-6 sm:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-bold text-secondary uppercase tracking-wider mb-2">
-                        Loại mô hình kinh doanh <span className="text-muted-foreground font-normal">(Không bắt buộc)</span>
+                      <label className="block text-xs font-bold text-secondary dark:text-foreground uppercase tracking-wider mb-2">
+                        Business Type <span className="text-muted-foreground font-normal">(Optional)</span>
                       </label>
-                      <select
-                        name="businessType"
-                        value={formData.businessType}
-                        onChange={handleInputChange}
-                        className="w-full h-11 border border-border bg-muted/50 px-4 text-sm rounded-lg outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all font-sans appearance-none"
-                      >
-                        <option value="">Chọn loại mô hình...</option>
-                        <option value="Restaurant">Nhà hàng / Quán ăn</option>
-                        <option value="Cafe">Cà phê / Bánh ngọt</option>
-                        <option value="Hotel">Khách sạn / Resort</option>
-                        <option value="Supermarket">Siêu thị / Cửa hàng tiện lợi</option>
-                        <option value="Kitchen">Bếp công nghiệp / Căng tin</option>
-                        <option value="Other">Mô hình khác</option>
-                      </select>
+                      <div className="relative">
+                        <select
+                          name="businessType"
+                          value={formData.businessType}
+                          onChange={handleInputChange}
+                          className="w-full h-11 border border-border bg-muted/50 dark:bg-muted/10 focus:bg-background dark:focus:bg-background px-4 text-sm rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all font-sans text-foreground appearance-none cursor-pointer"
+                        >
+                          <option value="" className="dark:bg-card">Select business type...</option>
+                          <option value="Restaurant" className="dark:bg-card">Restaurant</option>
+                          <option value="Cafe" className="dark:bg-card">Cafe & Bakery</option>
+                          <option value="Hotel" className="dark:bg-card">Hotel & Resort</option>
+                          <option value="Supermarket" className="dark:bg-card">Supermarket / Convenience Store</option>
+                          <option value="Kitchen" className="dark:bg-card">Commercial Kitchen & Canteen</option>
+                          <option value="Other" className="dark:bg-card">Other</option>
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-muted-foreground">
+                          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-secondary uppercase tracking-wider mb-2">
-                        Tên công ty <span className="text-muted-foreground font-normal">(Không bắt buộc)</span>
+                      <label className="block text-xs font-bold text-secondary dark:text-foreground uppercase tracking-wider mb-2">
+                        Company Name <span className="text-muted-foreground font-normal">(Optional)</span>
                       </label>
                       <input
                         type="text"
                         name="companyName"
                         value={formData.companyName}
                         onChange={handleInputChange}
-                        placeholder="Công ty TNHH QMaster"
-                        className="w-full h-11 border border-border bg-muted/50 px-4 text-sm rounded-lg outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all font-sans"
+                        placeholder="Company Name LLC"
+                        className="w-full h-11 border border-border bg-muted/50 dark:bg-muted/10 focus:bg-background dark:focus:bg-background px-4 text-sm rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all font-sans text-foreground placeholder:text-muted-foreground"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-secondary uppercase tracking-wider mb-2">
-                      Mô tả / Yêu cầu chi tiết <span className="text-muted-foreground font-normal">(Không bắt buộc)</span>
+                    <label className="block text-xs font-bold text-secondary dark:text-foreground uppercase tracking-wider mb-2">
+                      Special Requirements / Notes <span className="text-muted-foreground font-normal">(Optional)</span>
                     </label>
                     <textarea
                       name="description"
                       rows={4}
                       value={formData.description}
                       onChange={handleInputChange}
-                      placeholder="Mô tả thêm các yêu cầu đặc thù về kích thước, loại cửa kính, nhiệt độ cần đạt hoặc dịch vụ lắp đặt đi kèm..."
-                      className="w-full border border-border bg-muted/50 p-4 text-sm rounded-lg outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10 transition-all resize-none font-sans"
+                      placeholder="E.g., customized shelf partitions, optional glass doors, custom size Walk-in coldroom layout request..."
+                      className="w-full border border-border bg-muted/50 dark:bg-muted/10 focus:bg-background dark:focus:bg-background p-4 text-sm rounded-lg outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none font-sans text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
 
@@ -411,7 +418,7 @@ function ContactContent() {
                       <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-accent-foreground border-t-transparent" />
                     ) : (
                       <>
-                        <span>Gửi Yêu Cầu Tư Vấn & Báo Giá</span>
+                        <span>Submit Quote Request</span>
                         <ArrowRight className="h-4 w-4" />
                       </>
                     )}
@@ -426,43 +433,43 @@ function ContactContent() {
             <div className="lg:col-span-5 flex flex-col gap-6">
               {/* Company Info Card */}
               <div className="rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-xl shadow-primary/5 flex flex-col gap-6">
-                <h2 className="text-xl font-bold text-primary pb-3 border-b border-border flex items-center gap-2">
+                <h2 className="text-xl font-bold text-primary dark:text-foreground pb-3 border-b border-border flex items-center gap-2">
                   <Building2 className="h-5 w-5 text-accent-foreground" />
-                  <span>Thông tin liên hệ</span>
+                  <span>Contact Information</span>
                 </h2>
 
                 <div className="flex flex-col gap-4 text-sm">
                   <div className="flex gap-4">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                      <MapPin className="h-5 w-5" />
+                    <div className="h-10 w-10 rounded-full bg-primary/10 dark:bg-primary/20 text-primary dark:text-foreground flex items-center justify-center shrink-0">
+                      <MapPin className="h-5 w-5 text-primary dark:text-accent" />
                     </div>
                     <div>
-                      <p className="font-bold text-secondary">Địa chỉ công ty</p>
-                      <p className="text-muted-foreground mt-0.5 leading-relaxed">
-                        149C Trương Định, phường Nhiêu Lộc, tp HCM
+                      <p className="font-bold text-secondary dark:text-foreground">Company Address</p>
+                      <p className="text-muted-foreground mt-0.5 leading-relaxed font-sans">
+                        149C Truong Dinh, Nhieu Loc Ward, District 3, HCMC
                       </p>
                     </div>
                   </div>
 
                   <div className="flex gap-4">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                      <Phone className="h-5 w-5" />
+                    <div className="h-10 w-10 rounded-full bg-primary/10 dark:bg-primary/20 text-primary dark:text-foreground flex items-center justify-center shrink-0">
+                      <Phone className="h-5 w-5 text-primary dark:text-accent" />
                     </div>
                     <div>
-                      <p className="font-bold text-secondary">Số điện thoại hotline</p>
-                      <Link href="tel:0931613788" className="text-muted-foreground mt-0.5 block hover:text-primary transition-all font-semibold">
+                      <p className="font-bold text-secondary dark:text-foreground">Hotline Phone</p>
+                      <Link href="tel:0931613788" className="text-muted-foreground mt-0.5 block hover:text-primary dark:hover:text-accent transition-all font-semibold font-sans">
                         0931 613 788
                       </Link>
                     </div>
                   </div>
 
                   <div className="flex gap-4">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                      <Mail className="h-5 w-5" />
+                    <div className="h-10 w-10 rounded-full bg-primary/10 dark:bg-primary/20 text-primary dark:text-foreground flex items-center justify-center shrink-0">
+                      <Mail className="h-5 w-5 text-primary dark:text-accent" />
                     </div>
                     <div>
-                      <p className="font-bold text-secondary">Địa chỉ Email</p>
-                      <Link href="mailto:nguyenhainam17052004@gmail.com" className="text-muted-foreground mt-0.5 block hover:text-primary transition-all font-semibold break-all">
+                      <p className="font-bold text-secondary dark:text-foreground">Business Email</p>
+                      <Link href="mailto:nguyenhainam17052004@gmail.com" className="text-muted-foreground mt-0.5 block hover:text-primary dark:hover:text-accent transition-all font-semibold break-all font-sans">
                         nguyenhainam17052004@gmail.com
                       </Link>
                     </div>
@@ -473,14 +480,14 @@ function ContactContent() {
               {/* Map Container */}
               <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-xl shadow-primary/5 flex flex-col h-[320px] lg:flex-1 min-h-[300px]">
                 <div className="bg-muted px-6 py-3 border-b border-border flex items-center justify-between">
-                  <span className="text-xs font-bold text-secondary uppercase tracking-wider">Bản đồ chỉ đường</span>
+                  <span className="text-xs font-bold text-secondary dark:text-foreground uppercase tracking-wider">Location Map</span>
                   <Link 
                     href="https://maps.google.com/?q=149C+Trương+Định,+phường+Nhiêu+Lộc,+tp+HCM" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-[11px] font-bold text-primary hover:underline"
+                    className="text-[11px] font-bold text-primary dark:text-accent hover:underline"
                   >
-                    Xem trên Google Maps
+                    View on Google Maps
                   </Link>
                 </div>
                 <iframe
@@ -503,7 +510,7 @@ function ContactContent() {
 export default function ContactPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-[calc(100vh-9rem)] w-full flex items-center justify-center">
+      <div className="min-h-[calc(100vh-9rem)] w-full flex items-center justify-center bg-background">
         <span className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
       </div>
     }>
