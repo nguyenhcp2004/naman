@@ -1,10 +1,14 @@
 import type { ReactNode } from "react"
+import type { Metadata } from "next"
 import { Geist_Mono } from "next/font/google"
 import localFont from "next/font/local"
 
 import "@workspace/ui/globals.css"
 import { SiteFooter, SiteHeader } from "@/components/layout"
 import { ThemeProvider } from "@/components/theme-provider"
+import { sanityFetch } from "@/sanity/lib/client"
+import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
+import type { SiteSettings } from "@/sanity/types"
 import { cn } from "@workspace/ui/lib/utils"
 
 const avo = localFont({
@@ -38,6 +42,16 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await sanityFetch<SiteSettings>({ query: SITE_SETTINGS_QUERY })
+
+  return {
+    title: settings?.seo?.title ?? settings?.siteTitle ?? "QMaster",
+    description: settings?.seo?.description ?? "QMaster operational workflows for projects, services, and company teams.",
+    robots: settings?.seo?.noIndex ? { index: false, follow: false } : undefined,
+  }
+}
 
 export default function RootLayout({
   children,

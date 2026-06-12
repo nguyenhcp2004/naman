@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+branch="$(git symbolic-ref --quiet --short HEAD)"
+
+case "$branch" in
+  main|develop)
+    echo "Pushes to '$branch' are blocked. Please push from a feature branch and open a PR."
+    exit 1
+    ;;
+esac
+
+exit 0
