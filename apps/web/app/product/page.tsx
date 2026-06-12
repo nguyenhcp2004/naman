@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { 
   Search, 
   SlidersHorizontal, 
@@ -28,10 +28,36 @@ export default function ProductPage() {
   
   // Quote Basket State
   const [quoteItems, setQuoteItems] = useState<{ product: Product; quantity: number }[]>([])
+  const [isInitialized, setIsInitialized] = useState(false)
   const [isQuoteOpen, setIsQuoteOpen] = useState(false)
   const [quoteSubmitted, setQuoteSubmitted] = useState(false)
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", notes: "" })
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("quote_items")
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        setTimeout(() => {
+          setQuoteItems(parsed)
+        }, 0)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    setTimeout(() => {
+      setIsInitialized(true)
+    }, 0)
+  }, [])
+
+  // Save to localStorage when quoteItems changes
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem("quote_items", JSON.stringify(quoteItems))
+    }
+  }, [quoteItems, isInitialized])
 
   // Memoized Filtered & Sorted Products
   const filteredProducts = useMemo(() => {
