@@ -1,20 +1,16 @@
 "use client"
+
 import * as React from "react"
 import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
 import {
-  ArrowLeft,
   Sparkles,
-  ShoppingBag,
   Plus,
   CheckCircle2,
   AlertCircle,
-  FileText,
-  Download,
-  ShieldCheck,
-  Wrench,
   Info,
-  Check
+  Check,
+  ArrowLeft
 } from "lucide-react"
 
 import { Button } from "@workspace/ui/components/button"
@@ -23,6 +19,8 @@ import { productsData } from "../data"
 import { Blueprint } from "@/components/product/blueprint"
 import { ProductCard } from "@/components/product/product-card"
 import { QuoteDrawer } from "@/components/product/quote-drawer"
+import { DetailBreadcrumbs } from "@/components/product/detail-breadcrumbs"
+import { DetailTabs } from "@/components/product/detail-tabs"
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -162,39 +160,11 @@ export default function ProductDetailPage({ params }: PageProps) {
   return (
     <div className="flex min-h-[calc(100vh-9rem)] w-full flex-col bg-background text-foreground relative font-sans">
       {/* Top Breadcrumbs / Info Bar */}
-      <section className="border-b border-border bg-muted/40 px-5 py-4 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
-          <nav className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            <Link href="/product" className="hover:text-primary transition-colors">Catalog</Link>
-            <span>/</span>
-            <Link href={`/product?category=${encodeURIComponent(product.category)}`} className="hover:text-primary transition-colors">{product.category}</Link>
-            <span>/</span>
-            <span className="text-foreground/80 font-bold">{product.model}</span>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <Button asChild variant="outline" className="h-9 rounded-sm border-border text-xs font-bold hover:bg-muted">
-              <Link href="/product">
-                <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
-                Back to Catalog
-              </Link>
-            </Button>
-
-            <button
-              onClick={() => setIsQuoteOpen(true)}
-              className="flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 text-xs font-bold text-accent-foreground shadow hover:bg-accent/90 transition-all cursor-pointer relative"
-            >
-              <ShoppingBag className="h-3.5 w-3.5" />
-              <span>Quote Basket</span>
-              {totalQuoteItems > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-primary text-[9px] text-primary-foreground font-bold border-2 border-white">
-                  {totalQuoteItems}
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
-      </section>
+      <DetailBreadcrumbs 
+        product={product} 
+        totalQuoteItems={totalQuoteItems} 
+        onOpenQuote={() => setIsQuoteOpen(true)} 
+      />
 
       {/* Main product display card - Bartscher Layout Inspired */}
       <section className="mx-auto w-full max-w-7xl px-5 py-8 lg:px-8 flex-1">
@@ -329,185 +299,11 @@ export default function ProductDetailPage({ params }: PageProps) {
 
       {/* Tabs Section for technical data & documents - Bartscher layout */}
       <section className="mx-auto w-full max-w-7xl px-5 py-6 lg:px-8">
-        <div className="border border-border rounded bg-card overflow-hidden">
-          {/* Tab Header */}
-          <div className="flex border-b border-border bg-muted/30">
-            <button
-              onClick={() => setActiveTab("specs")}
-              className={`px-5 py-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${activeTab === "specs"
-                  ? "border-primary text-primary bg-card"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-                }`}
-            >
-              Technical Specifications
-            </button>
-            <button
-              onClick={() => setActiveTab("downloads")}
-              className={`px-5 py-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${activeTab === "downloads"
-                  ? "border-primary text-primary bg-card"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-                }`}
-            >
-              Documents & Downloads
-            </button>
-            <button
-              onClick={() => setActiveTab("warranty")}
-              className={`px-5 py-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${activeTab === "warranty"
-                  ? "border-primary text-primary bg-card"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-                }`}
-            >
-              Warranty & Service
-            </button>
-          </div>
-
-          {/* Tab Content */}
-          <div className="p-6">
-            {activeTab === "specs" && (
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">General Information</h3>
-                  <div className="border border-border rounded overflow-hidden divide-y divide-border">
-                    <div className="grid grid-cols-3 p-3 text-xs">
-                      <div className="font-bold text-muted-foreground">Category</div>
-                      <div className="col-span-2 text-foreground font-semibold">{product.category}</div>
-                    </div>
-                    <div className="grid grid-cols-3 p-3 text-xs bg-muted/10">
-                      <div className="font-bold text-muted-foreground">Model Code</div>
-                      <div className="col-span-2 text-foreground font-semibold font-mono">{product.id.toUpperCase()}</div>
-                    </div>
-                    <div className="grid grid-cols-3 p-3 text-xs">
-                      <div className="font-bold text-muted-foreground">Equipment Type</div>
-                      <div className="col-span-2 text-foreground">{product.name}</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Performance & Cooling</h3>
-                  <div className="border border-border rounded overflow-hidden divide-y divide-border">
-                    <div className="grid grid-cols-3 p-3 text-xs">
-                      <div className="font-bold text-muted-foreground">Temperature Range</div>
-                      <div className="col-span-2 text-foreground font-mono font-semibold">{product.tempRange}</div>
-                    </div>
-                    <div className="grid grid-cols-3 p-3 text-xs bg-muted/10">
-                      <div className="font-bold text-muted-foreground">Cooling System</div>
-                      <div className="col-span-2 text-foreground">Forced Air (Fan-Assisted Vent)</div>
-                    </div>
-                    <div className="grid grid-cols-3 p-3 text-xs">
-                      <div className="font-bold text-muted-foreground">Refrigerant Gas</div>
-                      <div className="col-span-2 text-foreground font-mono">{product.refrigerant}</div>
-                    </div>
-                    <div className="grid grid-cols-3 p-3 text-xs bg-muted/10">
-                      <div className="font-bold text-muted-foreground">Climate Class</div>
-                      <div className="col-span-2 text-foreground">Class 5 (Tropical kitchens up to 43°C)</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Dimensions & Weight</h3>
-                  <div className="border border-border rounded overflow-hidden divide-y divide-border">
-                    <div className="grid grid-cols-3 p-3 text-xs">
-                      <div className="font-bold text-muted-foreground">External Dimensions</div>
-                      <div className="col-span-2 text-foreground font-mono">{product.dimensions}</div>
-                    </div>
-                    <div className="grid grid-cols-3 p-3 text-xs bg-muted/10">
-                      <div className="font-bold text-muted-foreground">Capacity Volume</div>
-                      <div className="col-span-2 text-foreground font-semibold">{product.capacity}</div>
-                    </div>
-                    <div className="grid grid-cols-3 p-3 text-xs">
-                      <div className="font-bold text-muted-foreground">Inner Chamber Build</div>
-                      <div className="col-span-2 text-foreground">Smooth radiused corners for easy sanitization</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Electrical specs</h3>
-                  <div className="border border-border rounded overflow-hidden divide-y divide-border">
-                    <div className="grid grid-cols-3 p-3 text-xs">
-                      <div className="font-bold text-muted-foreground">Power Input Source</div>
-                      <div className="col-span-2 text-foreground font-mono">{product.power}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "downloads" && (
-              <div className="space-y-4">
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Access specification sheets, CAD blueprints, and instructions for building placement and maintenance setup.
-                </p>
-                <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-                  <a
-                    href="#download"
-                    onClick={(e) => { e.preventDefault(); alert("Mock download: Technical Specification Sheet PDF triggered.") }}
-                    className="flex items-center gap-3 p-3 border border-border rounded hover:bg-muted/30 transition-colors group cursor-pointer"
-                  >
-                    <FileText className="h-5 w-5 text-primary shrink-0" />
-                    <div className="min-w-0">
-                      <span className="block text-xs font-bold text-primary truncate group-hover:underline">Spec Sheet (PDF)</span>
-                      <span className="block text-[10px] text-muted-foreground">Size: 1.4 MB | Language: EN</span>
-                    </div>
-                    <Download className="h-4 w-4 text-muted-foreground ml-auto shrink-0" />
-                  </a>
-
-                  <a
-                    href="#download"
-                    onClick={(e) => { e.preventDefault(); alert("Mock download: Installation & Operating Manual PDF triggered.") }}
-                    className="flex items-center gap-3 p-3 border border-border rounded hover:bg-muted/30 transition-colors group cursor-pointer"
-                  >
-                    <FileText className="h-5 w-5 text-primary shrink-0" />
-                    <div className="min-w-0">
-                      <span className="block text-xs font-bold text-primary truncate group-hover:underline">User Manual (PDF)</span>
-                      <span className="block text-[10px] text-muted-foreground">Size: 3.2 MB | Language: EN</span>
-                    </div>
-                    <Download className="h-4 w-4 text-muted-foreground ml-auto shrink-0" />
-                  </a>
-
-                  <a
-                    href="#download"
-                    onClick={(e) => { e.preventDefault(); alert("Mock download: DXF/CAD technical schematic drawing files triggered.") }}
-                    className="flex items-center gap-3 p-3 border border-border rounded hover:bg-muted/30 transition-colors group cursor-pointer"
-                  >
-                    <FileText className="h-5 w-5 text-primary shrink-0" />
-                    <div className="min-w-0">
-                      <span className="block text-xs font-bold text-primary truncate group-hover:underline">CAD Drawing (DXF)</span>
-                      <span className="block text-[10px] text-muted-foreground">Size: 850 KB | Engineering Layout</span>
-                    </div>
-                    <Download className="h-4 w-4 text-muted-foreground ml-auto shrink-0" />
-                  </a>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "warranty" && (
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="flex gap-4 p-4 border border-border rounded bg-muted/10">
-                  <ShieldCheck className="h-8 w-8 text-primary shrink-0" />
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-primary mb-1">12-Month Commercial Warranty</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      All 3Q hospitality equipment is backed by a full 1-year commercial warranty covering mechanical components, digital controllers, and refrigeration assemblies under normal operating conditions.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 p-4 border border-border rounded bg-muted/10">
-                  <Wrench className="h-8 w-8 text-primary shrink-0" />
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-primary mb-1">Engineering Service Support</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      We offer full life-cycle equipment support, replacement parts procurement, and emergency engineering service dispatch options to keep your operations running continuously.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        <DetailTabs 
+          product={product} 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+        />
       </section>
 
       {/* Related Equipment Section */}
