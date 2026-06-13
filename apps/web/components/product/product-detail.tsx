@@ -7,36 +7,28 @@ import {
   Sparkles,
   Plus,
   CheckCircle2,
-  AlertCircle,
   Info,
   Check,
-  ArrowLeft
+  ArrowLeft,
+  AlertCircle
 } from "lucide-react"
 
 import { Button } from "@workspace/ui/components/button"
-import { Product } from "../types"
-import { productsData } from "../data"
+import { Product } from "@/app/product/types"
 import { Blueprint } from "@/components/product/blueprint"
 import { ProductCard } from "@/components/product/product-card"
 import { QuoteDrawer } from "@/components/product/quote-drawer"
 import { DetailBreadcrumbs } from "@/components/product/detail-breadcrumbs"
 import { DetailTabs } from "@/components/product/detail-tabs"
 
-interface PageProps {
-  params: Promise<{ id: string }>
-}
-
 type TabType = "specs" | "downloads" | "warranty"
 
-export default function ProductDetailPage({ params }: PageProps) {
-  const { id } = React.use(params)
+interface ProductDetailProps {
+  product: Product
+  relatedProducts: Product[]
+}
 
-  // Find product by id
-  const product = useMemo(() => {
-    return productsData.find((p) => p.id === id)
-  }, [id])
-
-  // Active tab state
+export function ProductDetail({ product, relatedProducts }: ProductDetailProps) {
   const [activeTab, setActiveTab] = useState<TabType>("specs")
 
   // Quote Basket State (Shared via localStorage)
@@ -117,16 +109,15 @@ export default function ProductDetailPage({ params }: PageProps) {
     }, 3000)
   }
 
-  // Get related products (same category, or other popular models, excluding current)
-  const relatedProducts = useMemo(() => {
-    if (!product) return []
-    const sameCategory = productsData.filter((p) => p.category === product.category && p.id !== product.id)
-    if (sameCategory.length >= 3) return sameCategory.slice(0, 3)
+  const totalQuoteItems = quoteItems.reduce((acc, i) => acc + i.quantity, 0)
 
-    // Fill in with other products if needed
-    const others = productsData.filter((p) => p.id !== product.id && p.category !== product.category)
-    return [...sameCategory, ...others].slice(0, 3)
-  }, [product])
+  const highlights = [
+    "High-grade 304 stainless steel construction inside and out",
+    "Digital microprocessor temperature controller with external display",
+    "Environmentally friendly refrigerant with high thermodynamic efficiency",
+    "High-performance fan-assisted cooling system for rapid pull-down",
+    "Magnetic chamber seals for superior thermal isolation and door-close assist"
+  ]
 
   if (!product) {
     return (
@@ -146,35 +137,22 @@ export default function ProductDetailPage({ params }: PageProps) {
     )
   }
 
-  const totalQuoteItems = quoteItems.reduce((acc, i) => acc + i.quantity, 0)
-
-  // Highlights list (Bartscher style summary)
-  const highlights = [
-    "High-grade 304 stainless steel construction inside and out",
-    "Digital microprocessor temperature controller with external display",
-    "Environmentally friendly refrigerant with high thermodynamic efficiency",
-    "High-performance fan-assisted cooling system for rapid pull-down",
-    "Magnetic chamber seals for superior thermal isolation and door-close assist"
-  ]
-
   return (
     <div className="flex min-h-[calc(100vh-9rem)] w-full flex-col bg-background text-foreground relative font-sans">
       {/* Top Breadcrumbs / Info Bar */}
-      <DetailBreadcrumbs 
-        product={product} 
-        totalQuoteItems={totalQuoteItems} 
-        onOpenQuote={() => setIsQuoteOpen(true)} 
+      <DetailBreadcrumbs
+        product={product}
+        totalQuoteItems={totalQuoteItems}
+        onOpenQuote={() => setIsQuoteOpen(true)}
       />
 
-      {/* Main product display card - Bartscher Layout Inspired */}
+      {/* Main product display card */}
       <section className="mx-auto w-full max-w-7xl px-5 py-8 lg:px-8 flex-1">
         <div className="grid gap-8 lg:grid-cols-12 bg-card border border-border/80 rounded shadow-xs p-6 md:p-8">
 
           {/* Left Side: Drawing + Key Highlights */}
           <div className="lg:col-span-5 flex flex-col gap-6">
-            {/* Drawing blueprint container with technical grid background */}
             <div className="relative flex aspect-square items-center justify-center rounded border border-[#0D4E8E]/10 bg-gradient-to-br from-[#0D4E8E]/5 to-[#0D4E8E]/0 p-8 overflow-hidden shadow-inner group">
-              {/* Premium series badge */}
               {product.isPremium && (
                 <div className="absolute left-4 top-4 z-10">
                   <span className="inline-flex items-center gap-1 rounded bg-[linear-gradient(to_right,#8B7046,#b69c70)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
@@ -183,16 +161,12 @@ export default function ProductDetailPage({ params }: PageProps) {
                   </span>
                 </div>
               )}
-
-              {/* Grid-lines design accent */}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(13,78,142,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(13,78,142,0.03)_1px,transparent_1px)] bg-[size:16px_16px]" />
-
               <div className="w-full max-w-[280px] aspect-square flex items-center justify-center relative z-10 transition-transform duration-300 group-hover:scale-105">
                 <Blueprint type={product.imageType} />
               </div>
             </div>
 
-            {/* Fast facts / Bullet specs checklist */}
             <div className="rounded border border-border bg-muted/20 p-5">
               <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-2">
                 <Info className="h-4 w-4 text-primary dark:text-accent" />
@@ -212,12 +186,10 @@ export default function ProductDetailPage({ params }: PageProps) {
           {/* Right Side: Product Details & CTAs */}
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div>
-              {/* Status and Category tags */}
               <div className="flex items-center gap-3 flex-wrap">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-primary dark:text-accent bg-primary/10 dark:bg-muted px-2 py-0.5 rounded">
                   {product.category}
                 </span>
-
                 {product.inStock ? (
                   <span className="inline-flex items-center gap-1 text-[10px] font-bold text-accent-foreground bg-accent px-2 py-0.5 rounded">
                     <CheckCircle2 className="h-3 w-3" />
@@ -230,7 +202,6 @@ export default function ProductDetailPage({ params }: PageProps) {
                 )}
               </div>
 
-              {/* Title & Model Code */}
               <h2 className="mt-3 text-sm font-bold text-secondary-foreground uppercase tracking-widest font-mono">
                 Model: {product.id.toUpperCase()}
               </h2>
@@ -241,7 +212,6 @@ export default function ProductDetailPage({ params }: PageProps) {
                 {product.name}
               </p>
 
-              {/* Description */}
               <div className="mt-5 border-t border-border/80 pt-5">
                 <p className="text-sm leading-relaxed text-foreground/90 font-sans">
                   {product.description}
@@ -251,7 +221,6 @@ export default function ProductDetailPage({ params }: PageProps) {
                 </p>
               </div>
 
-              {/* Quick Specs Grid */}
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div className="border border-border/85 bg-muted/10 p-3.5 rounded flex flex-col justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Temperature Range</span>
@@ -272,7 +241,6 @@ export default function ProductDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* CTAs */}
             <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => addToQuote(product)}
@@ -281,7 +249,6 @@ export default function ProductDetailPage({ params }: PageProps) {
                 <Plus className="h-4.5 w-4.5" />
                 Add to Quote Basket
               </button>
-
               <Button
                 asChild
                 variant="outline"
@@ -293,16 +260,15 @@ export default function ProductDetailPage({ params }: PageProps) {
               </Button>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* Tabs Section for technical data & documents - Bartscher layout */}
+      {/* Tabs Section */}
       <section className="mx-auto w-full max-w-7xl px-5 py-6 lg:px-8">
-        <DetailTabs 
-          product={product} 
-          activeTab={activeTab} 
-          onTabChange={setActiveTab} 
+        <DetailTabs
+          product={product}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
       </section>
 
@@ -312,7 +278,6 @@ export default function ProductDetailPage({ params }: PageProps) {
           <div className="mx-auto max-w-7xl">
             <h3 className="text-lg font-bold text-foreground mb-1 uppercase tracking-wider">Related Equipment</h3>
             <p className="text-xs text-muted-foreground mb-8">Other commercial cooling solutions matching your catalog requirements</p>
-
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {relatedProducts.map((p) => (
                 <ProductCard
@@ -326,7 +291,7 @@ export default function ProductDetailPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* Quote Drawer / Side Modal */}
+      {/* Quote Drawer */}
       <QuoteDrawer
         isOpen={isQuoteOpen}
         onClose={() => setIsQuoteOpen(false)}
