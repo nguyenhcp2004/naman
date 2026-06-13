@@ -80,7 +80,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
       foundProduct = mapSanityProduct(raw)
     }
     allProducts = rawAll.map((r) => mapSanityProduct(r))
-    console.log("Sanity products fetched:", allProducts)
   } catch {
     // Fallback to mock data
     const mock = productsData.find((p) => p.id === slug)
@@ -105,7 +104,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
   }
 
   const product = foundProduct!
-  console.log("product", product)
 
   // Get related products (same category first, then fill with others)
   const relatedProducts = allProducts

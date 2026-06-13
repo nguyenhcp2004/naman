@@ -15,6 +15,7 @@ import {
 
 import { Button } from "@workspace/ui/components/button"
 import { Product } from "@/app/product/types"
+import { productsData } from "@/app/product/data"
 import { Blueprint } from "@/components/product/blueprint"
 import { ProductCard } from "@/components/product/product-card"
 import { QuoteDrawer } from "@/components/product/quote-drawer"
@@ -49,26 +50,26 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
         const parsed = JSON.parse(stored)
         if (Array.isArray(parsed)) {
           parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
-            const product = productsData.find(p => p.id === (item.product?.id || item.productId))
-            if (product) {
-              loaded.push({ product, quantity: item.quantity || 1 })
-            }
-          })
+              const product = productsData.find((p: Product) => p.id === (item.product?.id || item.productId))
+              if (product) {
+                loaded.push({ product, quantity: item.quantity || 1 })
+              }
+            })
+          }
         }
+      } catch (e) {
+        console.error("Error reading quote basket from localStorage", e)
       }
-    } catch (e) {
-      console.error("Error reading quote basket from localStorage", e)
-    }
 
-    // 2. Try quote_items if nothing was loaded
-    if (loaded.length === 0) {
-      try {
-        const saved = localStorage.getItem("quote_items")
-        if (saved) {
-          const parsed = JSON.parse(saved)
-          if (Array.isArray(parsed)) {
-            parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
-              const product = productsData.find(p => p.id === (item.product?.id || item.productId))
+      // 2. Try quote_items if nothing was loaded
+      if (loaded.length === 0) {
+        try {
+          const saved = localStorage.getItem("quote_items")
+          if (saved) {
+            const parsed = JSON.parse(saved)
+            if (Array.isArray(parsed)) {
+              parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
+                const product = productsData.find((p: Product) => p.id === (item.product?.id || item.productId))
               if (product) {
                 loaded.push({ product, quantity: item.quantity || 1 })
               }
