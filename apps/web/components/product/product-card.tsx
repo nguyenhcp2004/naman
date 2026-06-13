@@ -1,4 +1,5 @@
 import * as React from "react"
+import Link from "next/link"
 import { Sparkles, Plus } from "lucide-react"
 
 import { Product } from "@/app/product/types"
@@ -12,7 +13,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onAddToQuote }: ProductCardProps) {
   return (
-    <div className="group relative flex flex-col justify-between rounded bg-white p-4 border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+    <div className="group relative flex flex-col justify-between rounded bg-card p-4 border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
       {/* Visual Status Badges */}
       <div className="absolute left-4 top-4 z-10 flex flex-col gap-1.5">
         {product.isPremium && (
@@ -33,18 +34,20 @@ export function ProductCard({ product, onAddToQuote }: ProductCardProps) {
       </div>
 
       {/* Blueprint Drawing Container */}
-      <div className="relative mb-4 flex items-center justify-center rounded bg-muted/30 p-2 overflow-hidden border border-border/40">
+      <Link href={`/product/${product.id}`} className="relative mb-4 flex items-center justify-center rounded bg-muted/30 p-2 overflow-hidden border border-border/40 hover:bg-muted/50 transition-colors cursor-pointer">
         <Blueprint type={product.imageType} />
-      </div>
+      </Link>
 
       {/* Info & Specs */}
       <div>
         <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
           {product.category}
         </span>
-        <h3 className="mt-1 text-sm font-bold text-primary truncate">
-          {product.model}
-        </h3>
+        <Link href={`/product/${product.id}`} className="block hover:underline cursor-pointer">
+          <h3 className="mt-1 text-sm font-bold text-foreground truncate">
+            {product.model}
+          </h3>
+        </Link>
         <h4 className="mt-0.5 text-xs text-secondary font-medium line-clamp-1">
           {product.name}
         </h4>
