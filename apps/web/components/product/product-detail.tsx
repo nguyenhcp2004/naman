@@ -40,16 +40,50 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
 
   // Load from localStorage on mount
   useEffect(() => {
-    const saved = localStorage.getItem("quote_items")
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved)
-        setTimeout(() => {
-          setQuoteItems(parsed)
-        }, 0)
-      } catch (e) {
-        console.error(e)
+    const loaded: { product: Product; quantity: number }[] = []
+    
+    // 1. Try qmaster-quote-basket first
+    try {
+      const stored = localStorage.getItem("qmaster-quote-basket")
+      if (stored) {
+        const parsed = JSON.parse(stored)
+        if (Array.isArray(parsed)) {
+          parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
+            const product = productsData.find(p => p.id === (item.product?.id || item.productId))
+            if (product) {
+              loaded.push({ product, quantity: item.quantity || 1 })
+            }
+          })
+        }
       }
+    } catch (e) {
+      console.error("Error reading quote basket from localStorage", e)
+    }
+
+    // 2. Try quote_items if nothing was loaded
+    if (loaded.length === 0) {
+      try {
+        const saved = localStorage.getItem("quote_items")
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed)) {
+            parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
+              const product = productsData.find(p => p.id === (item.product?.id || item.productId))
+              if (product) {
+                loaded.push({ product, quantity: item.quantity || 1 })
+              }
+            })
+          }
+        }
+      } catch (e) {
+        console.error("Error reading quote_items from localStorage", e)
+      }
+    }
+
+    if (loaded.length > 0) {
+      setTimeout(() => {
+        setQuoteItems(loaded)
+      }, 0)
     }
     setTimeout(() => {
       setIsInitialized(true)
@@ -59,7 +93,17 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
   // Save to localStorage when quoteItems changes
   useEffect(() => {
     if (isInitialized) {
-      localStorage.setItem("quote_items", JSON.stringify(quoteItems))
+      try {
+        if (quoteItems.length === 0) {
+          localStorage.removeItem("qmaster-quote-basket")
+          localStorage.removeItem("quote_items")
+        } else {
+          localStorage.setItem("qmaster-quote-basket", JSON.stringify(quoteItems))
+          localStorage.setItem("quote_items", JSON.stringify(quoteItems))
+        }
+      } catch (e) {
+        console.error("Error saving to localStorage", e)
+      }
     }
   }, [quoteItems, isInitialized])
 
