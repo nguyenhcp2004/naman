@@ -92,7 +92,7 @@ function BrandLogo({ index }: { index: number }) {
 
 export function CustomersSection() {
   return (
-    <section className="relative overflow-hidden bg-background pb-36 pt-16 lg:pb-52 lg:pt-20">
+    <section className="relative overflow-hidden bg-background pb-8 pt-16 lg:pb-16 lg:pt-20">
       {/* top border line */}
       <div className="absolute inset-x-0 top-0 h-px bg-border" />
 
