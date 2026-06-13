@@ -29,7 +29,7 @@ export default function ComparePage() {
   const { clearProducts, products, removeProduct } = useCompareProducts()
 
   return (
-    <div className="bg-background">
+    <div className="bg-background pb-[20rem]">
       <section className="border-b border-border bg-muted/20 px-5 py-10 lg:px-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
