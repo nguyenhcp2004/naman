@@ -443,7 +443,7 @@ export function ProjectsPageContent({ page }: ProjectsPageContentProps) {
           </div>
         </section>
 
-        <section data-reveal-group className="px-5 pb-20 sm:px-8 lg:pb-28">
+        <section data-reveal-group className="px-5 pb-[20rem] sm:px-8">
           <div
             data-reveal
             className="mx-auto flex w-full max-w-7xl flex-col gap-6 rounded-[2rem] border border-border bg-primary p-7 text-primary-foreground shadow-2xl shadow-primary/20 sm:p-10 lg:flex-row lg:items-center lg:justify-between"
