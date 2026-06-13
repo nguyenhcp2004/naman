@@ -9,6 +9,7 @@ import { Button } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
 const navigationItems = [
+  { label: "Product", href: "/product" },
   { label: "Project", href: "/project" },
   { label: "Service", href: "/service" },
   { label: "Company", href: "/company" },
