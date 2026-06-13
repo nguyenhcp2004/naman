@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { 
   Search, 
   SlidersHorizontal, 
@@ -28,10 +28,36 @@ export default function ProductPage() {
   
   // Quote Basket State
   const [quoteItems, setQuoteItems] = useState<{ product: Product; quantity: number }[]>([])
+  const [isInitialized, setIsInitialized] = useState(false)
   const [isQuoteOpen, setIsQuoteOpen] = useState(false)
   const [quoteSubmitted, setQuoteSubmitted] = useState(false)
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", notes: "" })
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("quote_items")
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        setTimeout(() => {
+          setQuoteItems(parsed)
+        }, 0)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    setTimeout(() => {
+      setIsInitialized(true)
+    }, 0)
+  }, [])
+
+  // Save to localStorage when quoteItems changes
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem("quote_items", JSON.stringify(quoteItems))
+    }
+  }, [quoteItems, isInitialized])
 
   // Memoized Filtered & Sorted Products
   const filteredProducts = useMemo(() => {
@@ -149,7 +175,7 @@ export default function ProductPage() {
           {/* Quick Stats / Feedback */}
           <div className="flex items-center gap-6 rounded-lg border border-border bg-card p-4 shadow-sm md:w-auto">
             <div className="flex flex-col">
-              <span className="text-2xl font-bold text-primary">{filteredProducts.length}</span>
+              <span className="text-2xl font-bold text-foreground">{filteredProducts.length}</span>
               <span className="text-xs text-muted-foreground uppercase tracking-wider">Models Displayed</span>
             </div>
             <div className="h-8 w-px bg-border" />
@@ -160,7 +186,7 @@ export default function ProductPage() {
               <ShoppingBag className="h-4 w-4" />
               <span>Quote Basket</span>
               {quoteItems.length > 0 && (
-                <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground font-bold border-2 border-white">
+                <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground font-bold border-2 border-white dark:border-background">
                   {quoteItems.reduce((acc, i) => acc + i.quantity, 0)}
                 </span>
               )}
@@ -190,13 +216,13 @@ export default function ProductPage() {
           {/* Search Bar & Sort Dropdowns */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-card border border-border p-4 rounded-lg shadow-sm">
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-primary/60" />
+              <Search className="absolute left-3.5 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-foreground/60" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by model, name or specs..."
-                className="w-full h-11 rounded border border-border bg-[#F1F1F1] pl-11 pr-4 text-sm text-primary placeholder-primary/50 outline-none focus:border-primary focus:bg-white transition-all"
+                className="w-full h-11 rounded border border-border bg-muted/65 dark:bg-muted/20 pl-11 pr-4 text-sm text-foreground placeholder-muted-foreground/60 outline-none focus:border-primary focus:bg-background transition-all"
               />
               {searchTerm && (
                 <button 
@@ -234,38 +260,38 @@ export default function ProductPage() {
             <div className="flex flex-wrap gap-2 items-center">
               <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground mr-1">Active:</span>
               {selectedCategory !== "All Categories" && (
-                <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+                <span className="inline-flex items-center gap-1 bg-primary/15 dark:bg-muted text-foreground dark:text-accent text-xs font-semibold px-2.5 py-1 rounded-full">
                   {selectedCategory}
                   <button onClick={() => setSelectedCategory("All Categories")}><X className="h-3 w-3" /></button>
                 </span>
               )}
               {tempFilter !== "all" && (
-                <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+                <span className="inline-flex items-center gap-1 bg-primary/15 dark:bg-muted text-foreground dark:text-accent text-xs font-semibold px-2.5 py-1 rounded-full">
                   {tempFilter === "chilled" ? "Chilled Only" : "Frozen Only"}
                   <button onClick={() => setTempFilter("all")}><X className="h-3 w-3" /></button>
                 </span>
               )}
               {stockFilter && (
-                <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+                <span className="inline-flex items-center gap-1 bg-primary/15 dark:bg-muted text-foreground dark:text-accent text-xs font-semibold px-2.5 py-1 rounded-full">
                   In Stock
                   <button onClick={() => setStockFilter(false)}><X className="h-3 w-3" /></button>
                 </span>
               )}
               {premiumFilter && (
-                <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+                <span className="inline-flex items-center gap-1 bg-primary/15 dark:bg-muted text-foreground dark:text-accent text-xs font-semibold px-2.5 py-1 rounded-full">
                   Premium Grade
                   <button onClick={() => setPremiumFilter(false)}><X className="h-3 w-3" /></button>
                 </span>
               )}
               {searchTerm && (
-                <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full max-w-[150px] truncate">
+                <span className="inline-flex items-center gap-1 bg-primary/15 dark:bg-muted text-foreground dark:text-accent text-xs font-semibold px-2.5 py-1 rounded-full max-w-[150px] truncate">
                   &ldquo;{searchTerm}&rdquo;
                   <button onClick={() => setSearchTerm("")}><X className="h-3 w-3" /></button>
                 </span>
               )}
               <button 
                 onClick={resetFilters}
-                className="text-xs font-semibold text-primary underline hover:text-primary/80 ml-auto"
+                className="text-xs font-semibold text-primary dark:text-accent underline hover:text-primary/80 dark:hover:text-accent/80 ml-auto"
               >
                 Clear all
               </button>
