@@ -47,7 +47,7 @@ function ContactContent() {
       })
     }
     
-    // 2. If nothing in URL, try localStorage
+    // 2. If nothing in URL, try qmaster-quote-basket first
     if (loadedItems.length === 0) {
       try {
         const stored = localStorage.getItem("qmaster-quote-basket")
@@ -63,10 +63,30 @@ function ContactContent() {
           }
         }
       } catch {
-        console.error("Error reading localStorage")
+        console.error("Error reading localStorage qmaster-quote-basket")
       }
     }
 
+    // 3. Fallback to quote_items if still empty
+    if (loadedItems.length === 0) {
+      try {
+        const saved = localStorage.getItem("quote_items")
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed)) {
+            parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
+              const product = productsData.find(p => p.id === (item.product?.id || item.productId))
+              if (product) {
+                loadedItems.push({ product, quantity: item.quantity || 1 })
+              }
+            })
+          }
+        }
+      } catch {
+        console.error("Error reading localStorage quote_items")
+      }
+    }
+    
     if (loadedItems.length > 0) {
       setTimeout(() => {
         setQuoteItems(loadedItems)
@@ -78,7 +98,13 @@ function ContactContent() {
   // Save to localStorage when quoteItems changes
   const saveToLocalStorage = (items: typeof quoteItems) => {
     try {
-      localStorage.setItem("qmaster-quote-basket", JSON.stringify(items))
+      if (items.length === 0) {
+        localStorage.removeItem("qmaster-quote-basket")
+        localStorage.removeItem("quote_items")
+      } else {
+        localStorage.setItem("qmaster-quote-basket", JSON.stringify(items))
+        localStorage.setItem("quote_items", JSON.stringify(items))
+      }
     } catch {
       console.error("Error writing to localStorage")
     }
@@ -126,6 +152,7 @@ function ContactContent() {
         setQuoteItems([])
         try {
           localStorage.removeItem("qmaster-quote-basket")
+          localStorage.removeItem("quote_items")
         } catch {
           // ignore storage errors
         }
