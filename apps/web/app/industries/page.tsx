@@ -204,7 +204,7 @@ export default function IndustriesPage() {
     <>
       <SmoothScroll />
 
-      <div ref={pageRef}>
+      <div ref={pageRef} className="pb-[20rem]">
         <section className="relative isolate overflow-hidden bg-background px-5 py-14 sm:px-8 lg:py-20">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_8%_12%,color-mix(in_oklch,var(--accent),transparent_58%),transparent_30%),radial-gradient(circle_at_92%_10%,color-mix(in_oklch,var(--primary),transparent_78%),transparent_32%)]" />
           <div className="mx-auto grid min-h-[calc(100dvh-10rem)] w-full max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
