@@ -86,3 +86,20 @@ export type StaticPage = {
   }
   seo?: Seo
 } | null
+
+export type Product = {
+  _id: string
+  model: string
+  name: string
+  slug?: { current: string }
+  category: string
+  tempRange: string
+  dimensions: string
+  capacity: string
+  refrigerant: string
+  power: string
+  inStock: boolean
+  isPremium: boolean
+  imageType: "upright-chiller" | "upright-freezer" | "underbench" | "showcase" | "ice-machine" | "coldroom"
+  description: string
+} | null

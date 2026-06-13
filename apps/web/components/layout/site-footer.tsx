@@ -113,8 +113,8 @@ export function SiteFooter() {
                 <MapPin className="mt-0.5 size-4 shrink-0 text-accent" />
                 <span>
                   149C Truong Dinh, Nhieu Loc Ward
-                      <br />
-                      Ho Chi Minh City, Vietnam
+                  <br />
+                  Ho Chi Minh City, Vietnam
                 </span>
               </a>
             </address>

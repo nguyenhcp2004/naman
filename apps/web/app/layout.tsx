@@ -80,7 +80,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="flex min-h-svh flex-col bg-background text-foreground">
             <SiteHeader />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 pb-28 md:pb-36">{children}</main>
             <CompareFloatingButton />
             <SiteFooter />
           </div>
