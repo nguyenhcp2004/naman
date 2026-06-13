@@ -126,7 +126,6 @@ export default function ProductDetailPage({ params }: PageProps) {
       }
       return [...prev, { product: prod, quantity: 1 }]
     })
-    setIsQuoteOpen(true)
   }
 
   const updateQuantity = (productId: string, delta: number) => {
