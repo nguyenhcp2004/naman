@@ -1,12 +1,15 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
 
 import { Button } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
 const navigationItems = [
+  { label: "Product", href: "/product" },
   { label: "Project", href: "/project" },
   { label: "Service", href: "/service" },
   { label: "Company", href: "/company" },
@@ -14,18 +17,47 @@ const navigationItems = [
 
 export function SiteHeader() {
   const pathname = usePathname()
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const updateScrolled = () => setIsScrolled(window.scrollY > 12)
+
+    updateScrolled()
+    window.addEventListener("scroll", updateScrolled, { passive: true })
+
+    return () => window.removeEventListener("scroll", updateScrolled)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5">
-      <div className="mx-auto flex h-[4.5rem] w-full max-w-7xl items-center justify-between rounded-full border border-border/80 bg-background/90 px-3 shadow-2xl shadow-primary/10 backdrop-blur-xl sm:h-20 sm:px-5">
-        <Link className="group flex items-center gap-3 rounded-full pr-2 text-lg font-bold tracking-tight sm:text-xl" href="/">
-          <span className="grid size-11 place-items-center rounded-full bg-primary text-base text-primary-foreground shadow-lg shadow-primary/25 transition group-hover:scale-105 sm:size-12 sm:text-lg">
-            t
-          </span>
-          <span className="hidden sm:inline">QMaster</span>
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-500 ease-out",
+        isScrolled && "px-3 pt-2 sm:px-5 sm:pt-3",
+      )}
+    >
+      <div
+        className={cn(
+          "mx-auto flex w-full items-center justify-between transition-all duration-500 ease-out",
+          isScrolled
+            ? "h-14 max-w-[calc(100%-1.5rem)] rounded-full border border-border/60 bg-background/95 px-3 shadow-lg shadow-primary/10 backdrop-blur-xl sm:max-w-5xl sm:h-16 sm:px-5"
+            : "h-16 max-w-7xl border-b border-border/10 bg-background/40 px-4 sm:h-20 sm:px-6",
+        )}
+      >
+        <Link className="group flex items-center rounded-full pr-1.5" href="/" aria-label="QMaster home">
+          <Image
+            alt="QMaster"
+            className={cn(
+              "h-9 w-auto transition-all duration-300 group-hover:scale-105 sm:h-11",
+              isScrolled && "h-8 sm:h-10",
+            )}
+            height={180}
+            priority
+            src="/images/logo.png"
+            width={653}
+          />
         </Link>
 
-        <nav aria-label="Main navigation" className="flex items-center gap-1 text-base font-semibold text-muted-foreground sm:gap-3 sm:text-lg">
+        <nav aria-label="Main navigation" className="flex items-center gap-0.5 text-sm font-semibold text-muted-foreground sm:gap-1.5 sm:text-base">
           {navigationItems.map((item) => {
             const isActive = pathname === item.href
 
@@ -33,8 +65,8 @@ export function SiteHeader() {
               <Link
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "group relative px-3 py-2.5 transition hover:text-foreground sm:px-5 sm:py-3",
-                  "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:rounded-full after:bg-accent after:transition-transform after:duration-300 sm:after:inset-x-4",
+                  "group relative px-2 py-1.5 transition hover:text-foreground sm:px-3.5 sm:py-2",
+                  "after:absolute after:inset-x-2 after:bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-accent after:transition-transform after:duration-300 sm:after:inset-x-3",
                   isActive
                     ? "text-foreground after:scale-x-100"
                     : "after:scale-x-0 hover:after:scale-x-100",
@@ -48,7 +80,14 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <Button asChild className="hidden h-12 rounded-full px-6 text-base font-bold shadow-lg shadow-primary/15 sm:inline-flex" size="sm">
+        <Button
+          asChild
+          className={cn(
+            "h-9 rounded-full px-4 text-sm font-bold shadow-lg shadow-primary/15 transition-all duration-300 sm:h-10 sm:px-5 sm:text-base",
+            isScrolled ? "inline-flex" : "hidden sm:inline-flex",
+          )}
+          size="sm"
+        >
           <Link href="/service">Get Started</Link>
         </Button>
       </div>
