@@ -36,16 +36,50 @@ export default function ProductPage() {
 
   // Load from localStorage on mount
   useEffect(() => {
-    const saved = localStorage.getItem("quote_items")
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved)
-        setTimeout(() => {
-          setQuoteItems(parsed)
-        }, 0)
-      } catch (e) {
-        console.error(e)
+    const loaded: { product: Product; quantity: number }[] = []
+    
+    // 1. Try qmaster-quote-basket first
+    try {
+      const stored = localStorage.getItem("qmaster-quote-basket")
+      if (stored) {
+        const parsed = JSON.parse(stored)
+        if (Array.isArray(parsed)) {
+          parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
+            const product = productsData.find(p => p.id === (item.product?.id || item.productId))
+            if (product) {
+              loaded.push({ product, quantity: item.quantity || 1 })
+            }
+          })
+        }
       }
+    } catch (e) {
+      console.error("Error reading quote basket from localStorage", e)
+    }
+
+    // 2. Try quote_items if nothing was loaded
+    if (loaded.length === 0) {
+      try {
+        const saved = localStorage.getItem("quote_items")
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed)) {
+            parsed.forEach((item: { product?: { id: string }; productId?: string; quantity?: number }) => {
+              const product = productsData.find(p => p.id === (item.product?.id || item.productId))
+              if (product) {
+                loaded.push({ product, quantity: item.quantity || 1 })
+              }
+            })
+          }
+        }
+      } catch (e) {
+        console.error("Error reading quote_items from localStorage", e)
+      }
+    }
+
+    if (loaded.length > 0) {
+      setTimeout(() => {
+        setQuoteItems(loaded)
+      }, 0)
     }
     setTimeout(() => {
       setIsInitialized(true)
@@ -55,7 +89,17 @@ export default function ProductPage() {
   // Save to localStorage when quoteItems changes
   useEffect(() => {
     if (isInitialized) {
-      localStorage.setItem("quote_items", JSON.stringify(quoteItems))
+      try {
+        if (quoteItems.length === 0) {
+          localStorage.removeItem("qmaster-quote-basket")
+          localStorage.removeItem("quote_items")
+        } else {
+          localStorage.setItem("qmaster-quote-basket", JSON.stringify(quoteItems))
+          localStorage.setItem("quote_items", JSON.stringify(quoteItems))
+        }
+      } catch (e) {
+        console.error("Error saving to localStorage", e)
+      }
     }
   }, [quoteItems, isInitialized])
 
@@ -108,26 +152,29 @@ export default function ProductPage() {
         return prev.map((item) => 
           item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         )
+      } else {
+        return [...prev, { product, quantity: 1 }]
       }
-      return [...prev, { product, quantity: 1 }]
     })
     setIsQuoteOpen(true)
   }
 
   const updateQuantity = (productId: string, delta: number) => {
-    setQuoteItems((prev) => 
-      prev.map((item) => {
+    setQuoteItems((prev) => {
+      return prev.map((item) => {
         if (item.product.id === productId) {
           const newQty = item.quantity + delta
           return newQty > 0 ? { ...item, quantity: newQty } : null
         }
         return item
       }).filter((item): item is { product: Product; quantity: number } => item !== null)
-    )
+    })
   }
 
   const removeFromQuote = (productId: string) => {
-    setQuoteItems((prev) => prev.filter((item) => item.product.id !== productId))
+    setQuoteItems((prev) => {
+      return prev.filter((item) => item.product.id !== productId)
+    })
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
