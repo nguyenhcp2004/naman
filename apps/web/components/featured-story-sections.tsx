@@ -126,7 +126,7 @@ export function FeaturedStorySections() {
 
           <div className="pointer-events-none relative hidden min-h-[520px] lg:block">
             <div className="absolute inset-0 bg-[linear-gradient(color-mix(in_oklch,var(--primary),transparent_92%)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_oklch,var(--primary),transparent_92%)_1px,transparent_1px)] bg-[length:54px_54px]" />
-            <div data-stack-preview className="absolute right-30 top-[20%] z-50 h-[360px] w-[620px] -translate-y-1/2 xl:right-8">
+            <div data-stack-preview className="absolute right-72 top-[20%] z-50 h-[360px] w-[620px] -translate-y-1/2 xl:right-45">
               {projects.map((project, index) => (
                 <div
                   className="absolute left-1/2 top-1/2 h-72 w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.45rem] border border-border bg-card shadow-2xl shadow-primary/20 will-change-transform"
