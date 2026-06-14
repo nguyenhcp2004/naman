@@ -9,7 +9,8 @@ const PRODUCT_BY_SLUG_QUERY = defineQuery(`
   *[_type == "product" && slug.current == $slug][0] {
     _id, model, name, slug, category,
     tempRange, dimensions, capacity, refrigerant, power,
-    inStock, isPremium, imageType, description
+    inStock, isPremium, imageType, description,
+    "image": images[0].asset->url
   }
 `)
 
@@ -17,7 +18,8 @@ const PRODUCTS_QUERY = defineQuery(`
   *[_type == "product"] | order(model asc) {
     _id, model, name, slug, category,
     tempRange, dimensions, capacity, refrigerant, power,
-    inStock, isPremium, imageType, description
+    inStock, isPremium, imageType, description,
+    "image": images[0].asset->url
   }
 `)
 
@@ -46,6 +48,7 @@ function mapSanityProduct(raw: Record<string, unknown>): Product {
     id: slug || raw._id as string,
     model: raw.model as string,
     name: raw.name as string,
+    image: typeof raw.image === "string" ? raw.image : undefined,
     slug,
     category: resolveCategory(raw.category),
     tempRange: raw.tempRange as string,
