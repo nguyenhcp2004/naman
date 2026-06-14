@@ -12,7 +12,9 @@ const navigationItems = [
   { label: "Product", href: "/product" },
   { label: "Projects", href: "/projects" },
   { label: "Service", href: "/service" },
+  { label: "Markets", href: "/industries" },
   { label: "Company", href: "/company" },
+  { label: "Contact", href: "/contact" },
 ]
 
 export function SiteHeader() {

@@ -24,6 +24,7 @@ const footerLinks: FooterLinkGroup[] = [
     links: [
       { label: "Projects", href: "/projects" },
       { label: "Services", href: "/service" },
+      { label: "Markets", href: "/industries" },
       { label: "Company", href: "/company" },
       { label: "Contact us", href: "mailto:nguyenhainam17052004@gmail.com" },
     ],

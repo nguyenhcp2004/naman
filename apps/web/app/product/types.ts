@@ -2,6 +2,7 @@ export interface Product {
   id: string
   model: string
   name: string
+  slug?: string
   category: string
   tempRange: string
   dimensions: string
