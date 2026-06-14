@@ -13,6 +13,7 @@ import {
   AlertCircle
 } from "lucide-react"
 
+import Image from "next/image"
 import { Button } from "@workspace/ui/components/button"
 import { Product } from "@/app/product/types"
 import { productsData } from "@/app/product/data"
@@ -207,7 +208,19 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               )}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(13,78,142,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(13,78,142,0.03)_1px,transparent_1px)] bg-[size:16px_16px]" />
               <div className="w-full max-w-[280px] aspect-square flex items-center justify-center relative z-10 transition-transform duration-300 group-hover:scale-105">
-                <Blueprint type={product.imageType} />
+                {product.image ? (
+                  <div className="relative w-full h-full rounded overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-contain"
+                      sizes="280px"
+                    />
+                  </div>
+                ) : (
+                  <Blueprint type={product.imageType} />
+                )}
               </div>
             </div>
 

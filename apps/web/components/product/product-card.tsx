@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeftRight, Check, Plus, Sparkles } from "lucide-react"
 
@@ -79,12 +80,26 @@ export function ProductCard({ product, onAddToQuote }: ProductCardProps) {
         )}
       </button>
 
-      {/* Blueprint Drawing Container */}
+      {/* Image / Blueprint Drawing Container */}
       <Link
         href={`/product/${product.id}`}
-        className="relative mb-4 flex cursor-pointer items-center justify-center overflow-hidden rounded border border-border/40 bg-muted/30 p-2 transition-colors hover:bg-muted/50"
+        className="relative mb-4 flex cursor-pointer items-center justify-center overflow-hidden rounded border border-border/40 bg-muted/30 transition-colors hover:bg-muted/50"
       >
-        <Blueprint type={product.imageType} />
+        {product.image ? (
+          <div className="relative h-48 w-full">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              sizes="(min-width: 640px) 33vw, 100vw"
+              className="object-cover object-center transition duration-300 group-hover:scale-105"
+            />
+          </div>
+        ) : (
+          <div className="p-2">
+            <Blueprint type={product.imageType} />
+          </div>
+        )}
       </Link>
 
       {/* Info & Specs */}
