@@ -3,6 +3,7 @@ export interface Product {
   model: string
   name: string
   slug?: string
+  image?: string
   category: string
   tempRange: string
   dimensions: string

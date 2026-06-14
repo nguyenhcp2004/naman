@@ -3,7 +3,9 @@
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useRef } from "react"
+import { Product } from "@/app/product/types"
 
 const insights = [
   { value: "100%", label: "Satisfied\nClients" },
@@ -11,16 +13,24 @@ const insights = [
   { value: "100+", label: "Projects\nCompleted" },
 ]
 
-const projects = [
-  { title: "Operation Log", image: "/images/hero-banner.png", from: { x: 600, y: -710, rotate: -7 } },
-  { title: "Equipment Market", image: "/images/hero-banner-2.png", from: { x: 0, y: -730, rotate: 4 } },
-  { title: "Enterprise Management", image: "/images/footer-card.png", from: { x: 620, y: -1110, rotate: 7 } },
-  { title: "Maintenance", image: "/images/hero-banner.png", from: { x: 0, y: -1130, rotate: -5 } },
+const FALLBACK_IMAGES = [
+  "/images/hero-banner.png",
+  "/images/hero-banner-2.png",
+  "/images/footer-card.png",
+  "/images/hero-banner.png",
 ]
+
+function getImage(product: Product, index: number) {
+  return product.image || FALLBACK_IMAGES[index] || "/images/hero-banner.png"
+}
 
 gsap.registerPlugin(ScrollTrigger)
 
-export function FeaturedStorySections() {
+interface FeaturedStorySectionsProps {
+  products: Product[]
+}
+
+export function FeaturedStorySections({ products }: FeaturedStorySectionsProps) {
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -126,22 +136,22 @@ export function FeaturedStorySections() {
 
           <div className="pointer-events-none relative hidden min-h-[520px] lg:block">
             <div className="absolute inset-0 bg-[linear-gradient(color-mix(in_oklch,var(--primary),transparent_92%)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_oklch,var(--primary),transparent_92%)_1px,transparent_1px)] bg-[length:54px_54px]" />
-            <div data-stack-preview className="absolute right-30 top-[20%] z-50 h-[360px] w-[620px] -translate-y-1/2 xl:right-8">
-              {projects.map((project, index) => (
+            <div data-stack-preview className="absolute right-72 top-[20%] z-50 h-[360px] w-[620px] -translate-y-1/2 xl:right-45">
+              {products.map((product, index) => (
                 <div
                   className="absolute left-1/2 top-1/2 h-72 w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.45rem] border border-border bg-card shadow-2xl shadow-primary/20 will-change-transform"
                   data-stack-card={index}
-                  key={`stack-${project.title}`}
+                  key={`stack-${product.id}`}
                   style={{
                     rotate: `${[-7, 4, 7, -5][index]}deg`,
                     translate: `${(index - 1.5) * 18}px ${index * 10}px`,
                     zIndex: index + 1,
                   }}
                 >
-                  <Image alt={project.title} className="object-cover object-[center_82%]" fill sizes="500px" src={project.image} />
+                  <Image alt={product.name} className="object-cover object-[center_82%]" fill sizes="500px" src={getImage(product, index)} />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/62 via-transparent to-transparent" />
                   <div className="absolute right-5 top-5 rounded-full bg-accent px-4 py-2 text-sm font-bold text-accent-foreground shadow-lg shadow-accent/20">
-                    {project.title}
+                    {product.model}
                   </div>
                 </div>
               ))}
@@ -166,11 +176,12 @@ export function FeaturedStorySections() {
           </div>
 
           <div className="relative z-30 h-[700px] lg:mx-10">
-            {projects.map((project, index) => (
-              <article
+            {products.map((product, index) => (
+              <Link
+                href={`/product/${product.slug || product.id}`}
                 data-project-card={index}
                 className="group absolute w-full overflow-hidden rounded-[1.65rem] border border-border bg-card shadow-2xl shadow-primary/10 will-change-transform md:w-[calc(50%-0.75rem)]"
-                key={project.title}
+                key={product.id}
                 style={{
                   left: index % 2 === 0 ? "0" : "calc(50% + 0.75rem)",
                   top: index < 2 ? "0" : "430px",
@@ -178,18 +189,23 @@ export function FeaturedStorySections() {
               >
                 <div className="relative h-[330px] overflow-hidden bg-muted lg:h-[390px]">
                   <Image
-                    alt={project.title}
+                    alt={product.name}
                     className="object-cover object-[center_82%] transition duration-700 group-hover:scale-105"
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    src={project.image}
+                    src={getImage(product, index)}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/72 via-transparent to-transparent" />
-                  <div className="absolute bottom-5 left-5 rounded-full bg-accent px-4 py-2 text-sm font-bold text-accent-foreground">
-                    {project.title}
+                  <div className="absolute bottom-5 left-5 flex flex-col gap-2">
+                    <span className="w-fit rounded-full bg-accent px-4 py-2 text-sm font-bold text-accent-foreground">
+                      {product.model}
+                    </span>
+                    <span className="w-fit rounded-full bg-primary/80 px-3 py-1 text-xs font-semibold text-primary-foreground backdrop-blur">
+                      {product.category}
+                    </span>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>

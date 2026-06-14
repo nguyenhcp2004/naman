@@ -98,3 +98,23 @@ export const STATIC_PAGE_QUERY = defineQuery(/* groq */ `
     seo { ${seoFields} }
   }
 `)
+
+export const FEATURED_PRODUCTS_QUERY = defineQuery(/* groq */ `
+  *[_type == "product"] | order(model asc) [0...4] {
+    _id,
+    model,
+    name,
+    slug,
+    "image": images[0].asset->url,
+    category,
+    tempRange,
+    dimensions,
+    capacity,
+    refrigerant,
+    power,
+    inStock,
+    isPremium,
+    imageType,
+    description
+  }
+`)
