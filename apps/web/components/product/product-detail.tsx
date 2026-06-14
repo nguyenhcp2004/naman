@@ -119,7 +119,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
       }
       return [...prev, { product: prod, quantity: 1 }]
     })
-    setIsQuoteOpen(true)
   }
 
   const updateQuantity = (productId: string, delta: number) => {

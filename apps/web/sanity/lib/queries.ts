@@ -1,5 +1,34 @@
 import { defineQuery } from "next-sanity"
 
+export const PROJECT_PAGE_QUERY = defineQuery(/* groq */ `
+  *[_type == "staticPage" && pageType == "projects"][0]{
+    title,
+    pageType,
+    sections[]{
+      _key,
+      title,
+      subtitle
+    },
+    projectPlanningSteps,
+    projectServices[]{
+      _key,
+      title,
+      description
+    },
+    projectReferences[]{
+      _key,
+      title,
+      description
+    },
+    projectMarqueeItems,
+    seo{
+      title,
+      description,
+      noIndex
+    }
+  }
+`)
+
 const imageFields = /* groq */ `
   asset->{
     _id,
@@ -67,5 +96,25 @@ export const STATIC_PAGE_QUERY = defineQuery(/* groq */ `
       subtitle
     },
     seo { ${seoFields} }
+  }
+`)
+
+export const FEATURED_PRODUCTS_QUERY = defineQuery(/* groq */ `
+  *[_type == "product"] | order(model asc) [0...4] {
+    _id,
+    model,
+    name,
+    slug,
+    "image": images[0].asset->url,
+    category,
+    tempRange,
+    dimensions,
+    capacity,
+    refrigerant,
+    power,
+    inStock,
+    isPremium,
+    imageType,
+    description
   }
 `)

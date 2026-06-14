@@ -1,3 +1,32 @@
+type Seo = {
+  title?: string
+  description?: string
+  noIndex?: boolean
+  image?: SanityImage
+}
+
+type ContentSection = {
+  _key?: string
+  title?: string
+  subtitle?: string
+}
+
+type ProjectCard = {
+  _key?: string
+  title?: string
+  description?: string
+}
+
+export type ProjectPage = {
+  title?: string
+  pageType?: string
+  sections?: ContentSection[]
+  projectPlanningSteps?: string[]
+  projectServices?: ProjectCard[]
+  projectReferences?: ProjectCard[]
+  projectMarqueeItems?: string[]
+  seo?: Seo
+} | null
 type SanityImage = {
   asset?: {
     _id?: string
@@ -13,12 +42,7 @@ type SanityImage = {
   alt?: string
 }
 
-type Seo = {
-  title?: string
-  description?: string
-  noIndex?: boolean
-  image?: SanityImage
-}
+
 
 type LinkValue = {
   label?: string

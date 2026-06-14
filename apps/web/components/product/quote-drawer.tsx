@@ -31,8 +31,14 @@ export function QuoteDrawer({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/55 backdrop-blur-sm transition-opacity animate-in fade-in duration-200">
-      <div className="relative flex h-full w-full max-w-md flex-col bg-card shadow-2xl animate-in slide-in-from-right duration-250">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex justify-end bg-black/55 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative flex h-full w-full max-w-md flex-col bg-card shadow-2xl animate-in slide-in-from-right duration-250"
+      >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border p-5">
           <div className="flex items-center gap-2">
