@@ -10,7 +10,7 @@ import { cn } from "@workspace/ui/lib/utils"
 
 const navigationItems = [
   { label: "Product", href: "/product" },
-  { label: "Project", href: "/project" },
+  { label: "Projects", href: "/projects" },
   { label: "Service", href: "/service" },
   { label: "Markets", href: "/industries" },
   { label: "Company", href: "/company" },

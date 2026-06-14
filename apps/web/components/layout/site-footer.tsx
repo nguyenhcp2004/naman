@@ -22,7 +22,7 @@ const footerLinks: FooterLinkGroup[] = [
   {
     title: "Quick Links",
     links: [
-      { label: "Projects", href: "/project" },
+      { label: "Projects", href: "/projects" },
       { label: "Services", href: "/service" },
       { label: "Markets", href: "/industries" },
       { label: "Company", href: "/company" },
