@@ -30,7 +30,7 @@ function serializePortableText(val: unknown): string {
     .join("\n")
 }
 
-function mapSanityProduct(raw: Record<string, unknown>, index: number): Product {
+function mapSanityProduct(raw: Record<string, unknown>): Product {
   const slug = (raw.slug as { current?: string })?.current ?? ""
   return {
     id: slug || raw._id as string,
@@ -56,7 +56,7 @@ export default async function ProductPage() {
   try {
     const raw = await client.fetch<Record<string, unknown>[]>(PRODUCTS_QUERY)
     if (raw.length > 0) {
-      products = raw.map((r, i) => mapSanityProduct(r, i))
+      products = raw.map((r) => mapSanityProduct(r))
     } else {
       // Fallback to mock data when Sanity has no products
       products = productsData.map((p) => ({ ...p, slug: p.id }))
