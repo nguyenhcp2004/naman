@@ -5,6 +5,7 @@ import localFont from "next/font/local"
 
 import "@workspace/ui/globals.css"
 import { SiteFooter, SiteHeader } from "@/components/layout"
+import { CompareFloatingButton } from "@/components/product/compare-floating-button"
 import { ThemeProvider } from "@/components/theme-provider"
 import { sanityFetch } from "@/sanity/lib/client"
 import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
@@ -44,12 +45,18 @@ const fontMono = Geist_Mono({
 })
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await sanityFetch<SiteSettings>({ query: SITE_SETTINGS_QUERY })
+  const settings = await sanityFetch<SiteSettings>({
+    query: SITE_SETTINGS_QUERY,
+  })
 
   return {
     title: settings?.seo?.title ?? settings?.siteTitle ?? "QMaster",
-    description: settings?.seo?.description ?? "QMaster operational workflows for projects, services, and company teams.",
-    robots: settings?.seo?.noIndex ? { index: false, follow: false } : undefined,
+    description:
+      settings?.seo?.description ??
+      "QMaster operational workflows for projects, services, and company teams.",
+    robots: settings?.seo?.noIndex
+      ? { index: false, follow: false }
+      : undefined,
   }
 }
 
@@ -62,13 +69,19 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, avo.variable, "font-sans")}
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        avo.variable,
+        "font-sans"
+      )}
     >
       <body>
         <ThemeProvider>
           <div className="flex min-h-svh flex-col bg-background text-foreground">
             <SiteHeader />
             <main className="flex-1 pb-28 md:pb-36">{children}</main>
+            <CompareFloatingButton />
             <SiteFooter />
           </div>
         </ThemeProvider>

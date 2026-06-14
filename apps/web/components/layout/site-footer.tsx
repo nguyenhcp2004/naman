@@ -5,14 +5,26 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 
-const GG_MAP_URL = "https://www.google.com/maps/search/149C+Truong+Dinh,+phuong+Nhieu+Loc,+tp+HCM"
+const GG_MAP_URL =
+  "https://www.google.com/maps/search/149C+Truong+Dinh,+phuong+Nhieu+Loc,+tp+HCM"
 
-const footerLinks = [
+type FooterLink = {
+  label: string
+  href?: string
+}
+
+type FooterLinkGroup = {
+  title: string
+  links: FooterLink[]
+}
+
+const footerLinks: FooterLinkGroup[] = [
   {
     title: "Quick Links",
     links: [
       { label: "Projects", href: "/project" },
       { label: "Services", href: "/service" },
+      { label: "Markets", href: "/industries" },
       { label: "Company", href: "/company" },
       { label: "Contact us", href: "mailto:nguyenhainam17052004@gmail.com" },
     ],
@@ -35,7 +47,6 @@ const footerLinks = [
   },
 ]
 
-
 export function SiteFooter() {
   const footerRef = useRef<HTMLElement>(null)
   const [cardLift, setCardLift] = useState(0)
@@ -47,7 +58,10 @@ export function SiteFooter() {
       if (!footer) return
 
       const { top } = footer.getBoundingClientRect()
-      const progress = Math.min(Math.max((window.innerHeight - top) / (window.innerHeight * 0.8), 0), 1)
+      const progress = Math.min(
+        Math.max((window.innerHeight - top) / (window.innerHeight * 0.8), 0),
+        1
+      )
 
       setCardLift(Math.round(progress * -34))
     }
@@ -63,14 +77,17 @@ export function SiteFooter() {
   }, [])
 
   return (
-    <footer ref={footerRef} className="bg-background px-3 pb-4 pt-16 sm:px-5 sm:pt-20">
-      <div className="relative mx-auto w-full max-w-7xl rounded-[1.75rem] border border-border/80 bg-primary px-5 pb-6 pt-32 text-primary-foreground shadow-2xl shadow-primary/20 sm:px-8 sm:pt-36 lg:px-16">
+    <footer
+      ref={footerRef}
+      className="bg-background px-3 pt-16 pb-4 sm:px-5 sm:pt-20"
+    >
+      <div className="relative mx-auto w-full max-w-7xl rounded-[1.75rem] border border-border/80 bg-primary px-5 pt-32 pb-6 text-primary-foreground shadow-2xl shadow-primary/20 sm:px-8 sm:pt-36 lg:px-16">
         <div
-          className="absolute left-1/2 top-0 w-[calc(100%-2rem)] max-w-5xl overflow-hidden rounded-[1.65rem] border border-border/80 bg-card p-6 text-card-foreground shadow-2xl shadow-primary/20 transition-transform duration-700 ease-out sm:p-8 lg:p-10"
+          className="absolute top-0 left-1/2 w-[calc(100%-2rem)] max-w-5xl overflow-hidden rounded-[1.65rem] border border-border/80 bg-card p-6 text-card-foreground shadow-2xl shadow-primary/20 transition-transform duration-700 ease-out sm:p-8 lg:p-10"
           style={{ transform: `translate(-50%, calc(-62% + ${cardLift}px))` }}
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_6%_95%,color-mix(in_oklch,var(--accent),transparent_58%),transparent_28%),radial-gradient(circle_at_85%_8%,color-mix(in_oklch,var(--primary),transparent_72%),transparent_28%),linear-gradient(90deg,color-mix(in_oklch,var(--background),var(--primary)_7%),var(--background)_58%)]" />
-          <div className="absolute bottom-0 right-0 hidden h-full w-[52%] sm:block">
+          <div className="absolute right-0 bottom-0 hidden h-full w-[52%] sm:block">
             <div className="absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-card to-transparent" />
             <Image
               alt="QMaster equipment showcase"
@@ -87,7 +104,8 @@ export function SiteFooter() {
               Experience superior project operations
             </h2>
             <p className="mt-4 max-w-sm text-base leading-7 text-muted-foreground">
-              Clear workflows, reliable services, and sharper visibility for every team.
+              Clear workflows, reliable services, and sharper visibility for
+              every team.
             </p>
             <Link
               className="mt-6 inline-flex h-11 items-center justify-center rounded-lg bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:-translate-y-0.5 hover:bg-primary/90"
@@ -100,10 +118,20 @@ export function SiteFooter() {
 
         <div className="grid gap-10 pt-4 md:grid-cols-[1.1fr_1.4fr] lg:gap-20">
           <div>
-            <Link className="inline-flex rounded-full bg-white px-4 py-3" href="/" aria-label="QMaster home">
-              <Image alt="QMaster" className="h-9 w-auto" height={180} src="/images/logo.png" width={653} />
+            <Link
+              className="inline-flex rounded-full bg-white px-4 py-3"
+              href="/"
+              aria-label="QMaster home"
+            >
+              <Image
+                alt="QMaster"
+                className="h-9 w-auto"
+                height={180}
+                src="/images/logo.png"
+                width={653}
+              />
             </Link>
-            <address className="mt-6 not-italic text-sm leading-6 text-primary-foreground/70">
+            <address className="mt-6 text-sm leading-6 text-primary-foreground/70 not-italic">
               <a
                 className="flex items-start gap-2 text-primary-foreground/70 transition hover:text-accent"
                 href={GG_MAP_URL}
@@ -144,7 +172,11 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
                 >
-                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="size-4"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                     <rect width="4" height="12" x="2" y="9" />
                     <circle cx="4" cy="4" r="2" />
@@ -157,7 +189,11 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   aria-label="Facebook"
                 >
-                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="size-4"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                   </svg>
                 </a>
@@ -168,7 +204,13 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   aria-label="Instagram"
                 >
-                  <svg className="size-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <svg
+                    className="size-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
                     <rect width="16" height="16" x="4" y="4" rx="4" />
                     <circle cx="12" cy="12" r="3" />
                     <path d="M17.5 6.5h.01" />
@@ -181,7 +223,11 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   aria-label="YouTube"
                 >
-                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="size-4"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.46 3.5 12 3.5 12 3.5s-7.46 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.6 31.6 0 0 0 0 12c0 1.95.16 3.88.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.92.55 9.38.55 9.38.55s7.46 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14c.33-1.93.5-3.86.5-5.81 0-1.95-.17-3.88-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z" />
                   </svg>
                 </a>
@@ -192,15 +238,24 @@ export function SiteFooter() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {footerLinks.map((group) => (
               <div key={group.title}>
-                <h3 className="text-sm font-medium text-accent">{group.title}</h3>
+                <h3 className="text-sm font-medium text-accent">
+                  {group.title}
+                </h3>
                 <div className="mt-5 flex flex-col gap-3">
-                  {group.links.map((link: any) =>
+                  {group.links.map((link) =>
                     link.href ? (
-                      <Link className="block w-full text-sm text-primary-foreground/80 transition hover:text-accent" href={link.href} key={link.label}>
+                      <Link
+                        className="block w-full text-sm text-primary-foreground/80 transition hover:text-accent"
+                        href={link.href}
+                        key={link.label}
+                      >
                         {link.label}
                       </Link>
                     ) : (
-                      <span className="block w-full text-sm text-primary-foreground/60" key={link.label}>
+                      <span
+                        className="block w-full text-sm text-primary-foreground/60"
+                        key={link.label}
+                      >
                         {link.label}
                       </span>
                     )
@@ -211,7 +266,9 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <p className="mt-20 text-center text-xs text-primary-foreground/55">© {new Date().getFullYear()} QMaster. All rights reserved.</p>
+        <p className="mt-20 text-center text-xs text-primary-foreground/55">
+          © {new Date().getFullYear()} QMaster. All rights reserved.
+        </p>
       </div>
     </footer>
   )

@@ -1,10 +1,16 @@
+"use client"
+
 import * as React from "react"
 import Link from "next/link"
-import { Sparkles, Plus } from "lucide-react"
+import { ArrowLeftRight, Check, Plus, Sparkles } from "lucide-react"
 
 import { Product } from "@/app/product/types"
 import { Button } from "@workspace/ui/components/button"
 import { Blueprint } from "./blueprint"
+import {
+  MAX_COMPARE_PRODUCTS,
+  useCompareProducts,
+} from "./use-compare-products"
 
 interface ProductCardProps {
   product: Product
@@ -12,10 +18,23 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToQuote }: ProductCardProps) {
+  const { addProduct, isFull, products, removeProduct } = useCompareProducts()
+  const isCompared = products.some((item) => item.id === product.id)
+  const compareDisabled = isFull && !isCompared
+
+  const handleCompareClick = () => {
+    if (isCompared) {
+      removeProduct(product.id)
+      return
+    }
+
+    addProduct(product)
+  }
+
   return (
-    <div className="group relative flex flex-col justify-between rounded bg-card p-4 border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+    <div className="group relative flex flex-col justify-between rounded border border-border bg-card p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
       {/* Visual Status Badges */}
-      <div className="absolute left-4 top-4 z-10 flex flex-col gap-1.5">
+      <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5">
         {product.isPremium && (
           <span className="inline-flex items-center gap-1 rounded-full bg-[linear-gradient(to_right,#8B7046,#b69c70)] px-2.5 py-0.5 text-[10px] font-bold text-white shadow">
             <Sparkles className="h-2.5 w-2.5" />
@@ -27,31 +46,64 @@ export function ProductCard({ product, onAddToQuote }: ProductCardProps) {
             In Stock
           </span>
         ) : (
-          <span className="rounded-full bg-muted border border-border px-2.5 py-0.5 text-[10px] font-bold text-muted-foreground">
+          <span className="rounded-full border border-border bg-muted px-2.5 py-0.5 text-[10px] font-bold text-muted-foreground">
             Indent Order
           </span>
         )}
       </div>
 
+      <button
+        type="button"
+        onClick={handleCompareClick}
+        disabled={compareDisabled}
+        className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm ring-1 ring-border/60 backdrop-blur transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-45"
+        aria-label={
+          isCompared
+            ? `Remove ${product.model} from compare list`
+            : compareDisabled
+              ? `Compare list is limited to ${MAX_COMPARE_PRODUCTS} products`
+              : `Add ${product.model} to compare list`
+        }
+        title={
+          isCompared
+            ? "Remove from compare"
+            : compareDisabled
+              ? `Maximum ${MAX_COMPARE_PRODUCTS} products`
+              : "Add to compare"
+        }
+      >
+        {isCompared ? (
+          <Check className="h-4.5 w-4.5" />
+        ) : (
+          <ArrowLeftRight className="h-4.5 w-4.5" />
+        )}
+      </button>
+
       {/* Blueprint Drawing Container */}
-      <Link href={`/product/${product.id}`} className="relative mb-4 flex items-center justify-center rounded bg-muted/30 p-2 overflow-hidden border border-border/40 hover:bg-muted/50 transition-colors cursor-pointer">
+      <Link
+        href={`/product/${product.id}`}
+        className="relative mb-4 flex cursor-pointer items-center justify-center overflow-hidden rounded border border-border/40 bg-muted/30 p-2 transition-colors hover:bg-muted/50"
+      >
         <Blueprint type={product.imageType} />
       </Link>
 
       {/* Info & Specs */}
       <div>
-        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+        <span className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
           {product.category}
         </span>
-        <Link href={`/product/${product.id}`} className="block hover:underline cursor-pointer">
-          <h3 className="mt-1 text-sm font-bold text-foreground truncate">
+        <Link
+          href={`/product/${product.id}`}
+          className="block cursor-pointer hover:underline"
+        >
+          <h3 className="mt-1 truncate text-sm font-bold text-foreground">
             {product.model}
           </h3>
         </Link>
-        <h4 className="mt-0.5 text-xs text-secondary font-medium line-clamp-1">
+        <h4 className="mt-0.5 line-clamp-1 text-xs font-medium text-secondary">
           {product.name}
         </h4>
-        <p className="mt-2 text-xs leading-relaxed text-muted-foreground line-clamp-2">
+        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
           {product.description}
         </p>
 
@@ -59,30 +111,44 @@ export function ProductCard({ product, onAddToQuote }: ProductCardProps) {
         <div className="mt-4 border-t border-border/60 pt-3">
           <dl className="grid grid-cols-2 gap-x-2 gap-y-1.5 text-[11px] font-medium">
             <div>
-              <dt className="text-muted-foreground font-semibold">Dimensions:</dt>
-              <dd className="text-foreground truncate font-mono">{product.dimensions}</dd>
+              <dt className="font-semibold text-muted-foreground">
+                Dimensions:
+              </dt>
+              <dd className="truncate font-mono text-foreground">
+                {product.dimensions}
+              </dd>
             </div>
             <div>
-              <dt className="text-muted-foreground font-semibold">Temp Range:</dt>
-              <dd className="text-foreground truncate font-mono">{product.tempRange}</dd>
+              <dt className="font-semibold text-muted-foreground">
+                Temp Range:
+              </dt>
+              <dd className="truncate font-mono text-foreground">
+                {product.tempRange}
+              </dd>
             </div>
             <div>
-              <dt className="text-muted-foreground font-semibold">Capacity:</dt>
-              <dd className="text-foreground truncate font-mono">{product.capacity}</dd>
+              <dt className="font-semibold text-muted-foreground">Capacity:</dt>
+              <dd className="truncate font-mono text-foreground">
+                {product.capacity}
+              </dd>
             </div>
             <div>
-              <dt className="text-muted-foreground font-semibold">Refrigerant:</dt>
-              <dd className="text-foreground truncate font-mono">{product.refrigerant}</dd>
+              <dt className="font-semibold text-muted-foreground">
+                Refrigerant:
+              </dt>
+              <dd className="truncate font-mono text-foreground">
+                {product.refrigerant}
+              </dd>
             </div>
           </dl>
         </div>
       </div>
 
       {/* Action Button */}
-      <div className="mt-4 pt-3 border-t border-border/40">
+      <div className="mt-4 border-t border-border/40 pt-3">
         <Button
           onClick={() => onAddToQuote(product)}
-          className="w-full rounded h-10 font-bold bg-primary text-white hover:bg-primary/95 flex items-center justify-center gap-2 transition-all cursor-pointer"
+          className="flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded bg-primary font-bold text-white transition-all hover:bg-primary/95"
         >
           <Plus className="h-4 w-4" />
           Add to Quote Request

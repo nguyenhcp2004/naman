@@ -1,5 +1,34 @@
 import { defineQuery } from "next-sanity"
 
+export const PROJECT_PAGE_QUERY = defineQuery(/* groq */ `
+  *[_type == "staticPage" && pageType == "projects"][0]{
+    title,
+    pageType,
+    sections[]{
+      _key,
+      title,
+      subtitle
+    },
+    projectPlanningSteps,
+    projectServices[]{
+      _key,
+      title,
+      description
+    },
+    projectReferences[]{
+      _key,
+      title,
+      description
+    },
+    projectMarqueeItems,
+    seo{
+      title,
+      description,
+      noIndex
+    }
+  }
+`)
+
 const imageFields = /* groq */ `
   asset->{
     _id,
